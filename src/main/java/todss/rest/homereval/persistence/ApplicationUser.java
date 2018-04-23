@@ -1,4 +1,4 @@
-package iac.rest.webshop.persistence;
+package todss.rest.homereval.persistence;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

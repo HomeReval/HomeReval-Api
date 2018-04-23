@@ -1,7 +1,7 @@
-package iac.rest.webshop.security;
+package todss.rest.homereval.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import iac.rest.webshop.persistence.ApplicationUser;
+import todss.rest.homereval.persistence.ApplicationUser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static iac.rest.webshop.security.SecurityConstants.*;
+import static todss.rest.homereval.security.SecurityConstants.*;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	private AuthenticationManager authenticationManager;

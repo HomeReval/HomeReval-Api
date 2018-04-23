@@ -1,4 +1,4 @@
-package iac.rest.webshop.security;
+package todss.rest.homereval.security;
 
 public class SecurityConstants {
 	public static final String SECRET = "SecretKeyToGenJWTs";

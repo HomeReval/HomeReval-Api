@@ -1,4 +1,4 @@
-package iac.rest.webshop;
+package todss.rest.homereval;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

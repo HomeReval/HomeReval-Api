@@ -1,7 +1,7 @@
-package iac.rest.webshop.security;
+package todss.rest.homereval.security;
 
-import iac.rest.webshop.persistence.ApplicationUser;
-import iac.rest.webshop.repositories.ApplicationUserRepository;
+import todss.rest.homereval.persistence.ApplicationUser;
+import todss.rest.homereval.repositories.ApplicationUserRepository;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

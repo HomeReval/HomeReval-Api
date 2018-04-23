@@ -1,4 +1,4 @@
-package iac.rest.webshop.security;
+package todss.rest.homereval.security;
 
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static iac.rest.webshop.security.SecurityConstants.*;
+import static todss.rest.homereval.security.SecurityConstants.*;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 

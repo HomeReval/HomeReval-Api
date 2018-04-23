@@ -1,7 +1,7 @@
-package iac.rest.webshop.controllers;
+package todss.rest.homereval.controllers;
 
-import iac.rest.webshop.persistence.Exercise;
-import iac.rest.webshop.repositories.ExerciseRepository;
+import todss.rest.homereval.persistence.Exercise;
+import todss.rest.homereval.repositories.ExerciseRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
@@ -22,7 +22,8 @@ public class ExerciseController {
 
 	@PostMapping
 	public void addExercise(@RequestBody Exercise exercise) {
-		exerciseRepository.save(exercise);
+	    System.out.println(exercise);
+		//exerciseRepository.save(exercise);
 	}
 
 	@GetMapping

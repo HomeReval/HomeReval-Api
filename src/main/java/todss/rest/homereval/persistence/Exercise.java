@@ -1,4 +1,4 @@
-package iac.rest.webshop.persistence;
+package todss.rest.homereval.persistence;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -57,6 +57,7 @@ public class Exercise {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", exerciseRecordings=" + exerciseRecordings +
                 '}';
     }
 }

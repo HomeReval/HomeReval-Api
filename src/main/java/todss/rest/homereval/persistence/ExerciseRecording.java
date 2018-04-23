@@ -1,4 +1,4 @@
-package iac.rest.webshop.persistence;
+package todss.rest.homereval.persistence;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Arrays;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -29,4 +30,12 @@ public class ExerciseRecording {
     }
 
     protected ExerciseRecording() {}
+
+    @Override
+    public String toString() {
+        return "ExerciseRecording{" +
+                "id=" + id +
+                ", recording=" + Arrays.toString(recording) +
+                '}';
+    }
 }

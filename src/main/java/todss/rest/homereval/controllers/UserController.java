@@ -1,7 +1,7 @@
-package iac.rest.webshop.controllers;
+package todss.rest.homereval.controllers;
 
-import iac.rest.webshop.persistence.ApplicationUser;
-import iac.rest.webshop.repositories.ApplicationUserRepository;
+import todss.rest.homereval.persistence.ApplicationUser;
+import todss.rest.homereval.repositories.ApplicationUserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
