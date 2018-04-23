@@ -1,0 +1,9 @@
+{
+	"name": "test",
+	"description": "test",
+	"exerciseRecordings": [
+		{
+			"recording": null
+		}
+	]
+}
