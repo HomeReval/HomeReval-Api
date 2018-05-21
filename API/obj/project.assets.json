@@ -12791,11 +12791,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\School\\HomeReval\\API\\API\\API\\API.csproj",
+      "projectUniqueName": "F:\\School\\HomeReval\\HomeReval-Api\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "F:\\School\\HomeReval\\API\\API\\API\\API.csproj",
+      "projectPath": "F:\\School\\HomeReval\\HomeReval-Api\\API\\API.csproj",
       "packagesPath": "C:\\Users\\Gebruiker\\.nuget\\packages\\",
-      "outputPath": "F:\\School\\HomeReval\\API\\API\\API\\obj\\",
+      "outputPath": "F:\\School\\HomeReval\\HomeReval-Api\\API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",

@@ -50,6 +50,8 @@ namespace API.Controllers
                 return BadRequest();
             }
 
+            account.Password = Security.Encryption.Encrypt(account.Password);
+
             _context.Accounts.Add(account);
             _context.SaveChanges();
 
