@@ -18,7 +18,7 @@ namespace API.Security
         private const bool Debug = false;
 
         // Define the position of the salt bytes within the final HashBytes
-        // An attacker can only know the correct salt byte position if he knows the hash unique to the given password
+        // An attacker can only know the correct salt byte position if he knows the salt unique position to the given password
         // GetMap2 had 255 possibilities of salt arrangement. This one as 2^36 different possibilities
         public static byte[] GetMap(string password)
         {
