@@ -31,3 +31,14 @@ D:\School\HomeReval\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.AssemblyInfoIn
 D:\School\HomeReval\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.AssemblyInfo.cs
 D:\School\HomeReval\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.dll
 D:\School\HomeReval\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.pdb
+C:\Users\Chung\Documents\GitHub\HomeReval-Api\API\bin\Debug\netcoreapp2.0\API.deps.json
+C:\Users\Chung\Documents\GitHub\HomeReval-Api\API\bin\Debug\netcoreapp2.0\API.runtimeconfig.json
+C:\Users\Chung\Documents\GitHub\HomeReval-Api\API\bin\Debug\netcoreapp2.0\API.runtimeconfig.dev.json
+C:\Users\Chung\Documents\GitHub\HomeReval-Api\API\bin\Debug\netcoreapp2.0\API.dll
+C:\Users\Chung\Documents\GitHub\HomeReval-Api\API\bin\Debug\netcoreapp2.0\API.pdb
+C:\Users\Chung\Documents\GitHub\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.csprojResolveAssemblyReference.cache
+C:\Users\Chung\Documents\GitHub\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.csproj.CoreCompileInputs.cache
+C:\Users\Chung\Documents\GitHub\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.AssemblyInfoInputs.cache
+C:\Users\Chung\Documents\GitHub\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.AssemblyInfo.cs
+C:\Users\Chung\Documents\GitHub\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.dll
+C:\Users\Chung\Documents\GitHub\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.pdb
