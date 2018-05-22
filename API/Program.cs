@@ -17,6 +17,8 @@ namespace API
     // https://www.jerriepelser.com/blog/using-mariadb-with-aspnet-core/
     // https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-2.0
 
+    // JWT tokens: https://github.com/spetz/tokenmanager-sample (Needs some improvements but its a good start)
+    // https://auth0.com/blog/securing-asp-dot-net-core-2-applications-with-jwts/
 
     // How to update Database: Open Package Manager Console
     // Execute: Add-Migration InitialCreate

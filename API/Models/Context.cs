@@ -16,6 +16,13 @@ namespace API.Models
 
         public DbSet<User> Users { get; set; }
         public DbSet<UserGroup> UserGroups {get; set; }
+        public DbSet<UserPhysio> UserPhysios { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserPhysio>()
+                .HasKey(c => new { c.UserID, c.PhysioID});
+        }
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{

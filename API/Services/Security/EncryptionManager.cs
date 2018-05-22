@@ -5,10 +5,10 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace API.Security
+namespace API.Services.Security
 {
     // glhf with decrypting this <3
-    public class Encryption
+    public class EncryptionManager : IEncryptionManager
     {
 
         private const int Iterations = 10000; // The more iterations the securer the password is encrypted but the slower it goes (100 = 20ms, 1000 = 40ms, 10000 = 200ms)
@@ -159,7 +159,7 @@ namespace API.Security
         }
 
         // Change a password one-way into a hashed string using salt
-        public static string Encrypt(string password)
+        public string Encrypt(string password)
         {
 
             byte[] salt;
@@ -185,7 +185,7 @@ namespace API.Security
         }
 
         // Compare a password to the hashedPassword
-        public static bool Check(string password, string hashedPassword)
+        public bool Compare(string password, string hashedPassword)
         {
 
             byte[] hashBytes = Convert.FromBase64String(hashedPassword);

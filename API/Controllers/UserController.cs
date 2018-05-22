@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Models;
+using API.Services.Security;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+// Token information: https://stackoverflow.com/questions/40281050/jwt-authentication-for-asp-net-web-api
 
 namespace API.Controllers
 {
@@ -13,14 +16,15 @@ namespace API.Controllers
     public class UserController : ControllerBase
     {
         private readonly Context _context;
+        private readonly IEncryptionManager _encryptionManager;
 
-        public UserController(Context context)
+        public UserController(Context context, IEncryptionManager encryptionManager)
         {
             _context = context;
+            _encryptionManager = encryptionManager;
 
             if (_context.Users.Count() == 0)
             {
-                //_context.Users.Add(new User { FirstName = "test" });
                 _context.Add(new User { Email = "projecthomereval@gmail.com", Password = "default", FirstName = "Admin", LastName = "Admin", Gender = 'm', UserGroup = _context.UserGroups.Find(API.Models.Type.Administrator) });
                 _context.SaveChanges();
             }
@@ -29,13 +33,16 @@ namespace API.Controllers
         [HttpGet]
         public List<User> GetAll()
         {
-            return _context.Users.ToList();
+            return _context.Users
+                //.Include(p => p.UserGroup)
+                .ToList();
         }
 
         [HttpGet("{id}", Name = "GetUser")]
         public IActionResult GetById(long id)
         {
             var user = _context.Users.Find(id);
+            _context.Entry(user).Reference(p => p.UserGroup).Load();
             if (user == null)
             {
                 return NotFound();
@@ -50,6 +57,8 @@ namespace API.Controllers
             {
                 return BadRequest();
             }
+
+            user.Password = _encryptionManager.Encrypt(user.Password);
 
             _context.Users.Add(user);
             _context.SaveChanges();

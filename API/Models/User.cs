@@ -16,14 +16,8 @@ namespace API.Models
         [Required]
         public string Email { get; set; }
 
-        private string _password;
-
         [Required]
-        public string Password
-        {
-            get { return _password; }
-            set { _password = Security.Encryption.Encrypt(value); }
-        }
+        public string Password { get; set; }
 
         [Required]
         public string FirstName { get; set; }
