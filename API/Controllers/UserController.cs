@@ -10,31 +10,32 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     [Route("api/[controller]")]
-    public class AccountController : ControllerBase
+    public class UserController : ControllerBase
     {
-        private readonly AccountContext _context;
+        private readonly Context _context;
 
-        public AccountController(AccountContext context)
+        public UserController(Context context)
         {
             _context = context;
 
-            if (_context.Accounts.Count() == 0)
+            if (_context.Users.Count() == 0)
             {
-                _context.Accounts.Add(new Account { Name = "test" });
+                //_context.Users.Add(new User { FirstName = "test" });
+                _context.Add(new User { Email = "projecthomereval@gmail.com", Password = "default", FirstName = "Admin", LastName = "Admin", Gender = 'm', UserGroup = _context.UserGroups.Find(API.Models.Type.Administrator) });
                 _context.SaveChanges();
             }
         }
 
         [HttpGet]
-        public List<Account> GetAll()
+        public List<User> GetAll()
         {
-            return _context.Accounts.ToList();
+            return _context.Users.ToList();
         }
 
         [HttpGet("{id}", Name = "GetAccount")]
         public IActionResult GetById(long id)
         {
-            var account = _context.Accounts.Find(id);
+            var account = _context.Users.Find(id);
             if (account == null)
             {
                 return NotFound();
@@ -43,38 +44,36 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] Account account)
+        public IActionResult Create([FromBody] User account)
         {
             if (account == null)
             {
                 return BadRequest();
             }
 
-            account.Password = Security.Encryption.Encrypt(account.Password);
-
-            _context.Accounts.Add(account);
+            _context.Users.Add(account);
             _context.SaveChanges();
 
-            return CreatedAtRoute("GetAccount", new { id = account.Id }, account);
+            return CreatedAtRoute("GetAccount", new { id = account.ID }, account);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(long id, [FromBody] Account account)
+        public IActionResult Update(long id, [FromBody] User account)
         {
-            if (account == null || account.Id != id)
+            if (account == null || account.ID != id)
             {
                 return BadRequest();
             }
 
-            var todo = _context.Accounts.Find(id);
+            var todo = _context.Users.Find(id);
             if (todo == null)
             {
                 return NotFound();
             }
 
-            todo.Name = account.Name;
+            todo.FirstName = account.FirstName;
 
-            _context.Accounts.Update(todo);
+            _context.Users.Update(todo);
             _context.SaveChanges();
             return NoContent();
         }
@@ -82,13 +81,13 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
-            var account = _context.Accounts.Find(id);
+            var account = _context.Users.Find(id);
             if (account == null)
             {
                 return NotFound();
             }
 
-            _context.Accounts.Remove(account);
+            _context.Users.Remove(account);
             _context.SaveChanges();
             return NoContent();
         }

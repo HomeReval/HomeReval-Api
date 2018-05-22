@@ -28,7 +28,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             // The connection to the MySQL database
-            services.AddDbContext<AccountContext>(options =>
+            services.AddDbContext<Context>(options =>
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
 
             // Force the application to only accept Requests from HTTPS: https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-2.0&tabs=visual-studio
