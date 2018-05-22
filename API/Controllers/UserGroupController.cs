@@ -34,5 +34,16 @@ namespace API.Controllers
             return _context.UserGroups.ToList();
         }
 
+        [HttpGet("{id}", Name = "GetUserGroup")]
+        public IActionResult GetById(long id)
+        {
+            var userGroup = _context.UserGroups.Find(id);
+            if (userGroup == null)
+            {
+                return NotFound();
+            }
+            return Ok(userGroup);
+        }
+
     }
 }

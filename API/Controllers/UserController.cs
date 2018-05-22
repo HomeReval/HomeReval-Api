@@ -32,35 +32,35 @@ namespace API.Controllers
             return _context.Users.ToList();
         }
 
-        [HttpGet("{id}", Name = "GetAccount")]
+        [HttpGet("{id}", Name = "GetUser")]
         public IActionResult GetById(long id)
         {
-            var account = _context.Users.Find(id);
-            if (account == null)
+            var user = _context.Users.Find(id);
+            if (user == null)
             {
                 return NotFound();
             }
-            return Ok(account);
+            return Ok(user);
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] User account)
+        public IActionResult Create([FromBody] User user)
         {
-            if (account == null)
+            if (user == null)
             {
                 return BadRequest();
             }
 
-            _context.Users.Add(account);
+            _context.Users.Add(user);
             _context.SaveChanges();
 
-            return CreatedAtRoute("GetAccount", new { id = account.ID }, account);
+            return CreatedAtRoute("GetUser", new { id = user.ID }, user);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(long id, [FromBody] User account)
+        public IActionResult Update(long id, [FromBody] User user)
         {
-            if (account == null || account.ID != id)
+            if (user == null || user.ID != id)
             {
                 return BadRequest();
             }
@@ -71,7 +71,7 @@ namespace API.Controllers
                 return NotFound();
             }
 
-            todo.FirstName = account.FirstName;
+            todo.FirstName = user.FirstName;
 
             _context.Users.Update(todo);
             _context.SaveChanges();
@@ -81,13 +81,13 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
-            var account = _context.Users.Find(id);
-            if (account == null)
+            var user = _context.Users.Find(id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(account);
+            _context.Users.Remove(user);
             _context.SaveChanges();
             return NoContent();
         }

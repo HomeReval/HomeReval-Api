@@ -29,7 +29,7 @@ namespace API
         {
             // The connection to the MySQL database
             services.AddDbContext<Context>(options =>
-                options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseMySql(Configuration.GetConnectionString("VPSConnection")));
 
             // Force the application to only accept Requests from HTTPS: https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-2.0&tabs=visual-studio
             //services.Configure<MvcOptions>(options =>
