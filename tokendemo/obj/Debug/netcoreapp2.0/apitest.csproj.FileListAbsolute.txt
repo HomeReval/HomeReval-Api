@@ -1,0 +1,11 @@
+F:\School\C#\api\bin\Debug\netcoreapp2.0\apitest.deps.json
+F:\School\C#\api\bin\Debug\netcoreapp2.0\apitest.runtimeconfig.json
+F:\School\C#\api\bin\Debug\netcoreapp2.0\apitest.runtimeconfig.dev.json
+F:\School\C#\api\bin\Debug\netcoreapp2.0\apitest.dll
+F:\School\C#\api\bin\Debug\netcoreapp2.0\apitest.pdb
+F:\School\C#\api\obj\Debug\netcoreapp2.0\apitest.csprojResolveAssemblyReference.cache
+F:\School\C#\api\obj\Debug\netcoreapp2.0\apitest.csproj.CoreCompileInputs.cache
+F:\School\C#\api\obj\Debug\netcoreapp2.0\apitest.AssemblyInfoInputs.cache
+F:\School\C#\api\obj\Debug\netcoreapp2.0\apitest.AssemblyInfo.cs
+F:\School\C#\api\obj\Debug\netcoreapp2.0\apitest.dll
+F:\School\C#\api\obj\Debug\netcoreapp2.0\apitest.pdb
