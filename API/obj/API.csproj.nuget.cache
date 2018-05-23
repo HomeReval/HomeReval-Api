@@ -1,5 +1,9 @@
 {
   "version": 1,
+<<<<<<< HEAD
   "dgSpecHash": "0j+ITLBDL/V3R+4xWJ7AP5wnyudgSoHXnLsF3J/iGCCXGEvfWQfJS1FMwbxLnpl0glz4RiAHmYRFifIOQz76eA==",
+=======
+  "dgSpecHash": "Sx3ReCiCliLnOU01Y3uHF9orw/uj9F/AQ6n+wXdWxO+zRKigpy/c0rOt6tlHTA6sHuVyZe6ZJP8WiKMOn7deKQ==",
+>>>>>>> parent of d22d0fd... added models
   "success": true
 }
