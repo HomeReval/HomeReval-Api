@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Models;
+using API.Services;
 using API.Services.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,7 +14,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using Pomelo.EntityFrameworkCore.MySql;
 
 namespace API
@@ -43,6 +43,7 @@ namespace API
             services.AddMvc();
             services.AddLogging();
             services.AddSingleton<IEncryptionManager, EncryptionManager>();
+            services.AddSingleton<IUserService, UserService>();
         }
 
         public void Configure(IApplicationBuilder app)
@@ -51,6 +52,7 @@ namespace API
             app.UseStaticFiles();
             app.UseMvc();
 
+            // VPS settings
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
@@ -60,6 +62,7 @@ namespace API
         }
     }
 
+    // Throw default Data is the database if empty
     public static class SeedData
     {
 
@@ -86,8 +89,8 @@ namespace API
             if (!context.UserPhysios.Any())
             {
 
-                User user = context.Users.Single(a => a.ID == 2);
-                User fysio = context.Users.Single(a => a.ID == 1);
+                User user = context.Users.First(a => a.UserGroup.ID == Models.Type.User);
+                User fysio = context.Users.First(a => a.UserGroup.ID == Models.Type.Manager);
 
                 context.Add(new UserPhysio { User = user, Physio = fysio });
                 context.SaveChanges();
@@ -104,8 +107,8 @@ namespace API
             if (!context.UserExercises.Any())
             {
 
-                User user = context.Users.Single(a => a.ID == 2);
-                Exercise exercise = context.Exercises.Single(a => a.ID == 1);
+                User user = context.Users.First(a => a.UserGroup.ID == Models.Type.User);
+                Exercise exercise = context.Exercises.First(a => a.ID == 1);
                 context.Add(new UserExercise { User = user, Exercise = exercise });
                 context.SaveChanges();
             }

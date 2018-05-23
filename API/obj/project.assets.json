@@ -13372,25 +13372,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\nickw\\.nuget\\packages\\": {},
+    "C:\\Users\\Gebruiker\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\School\\HomeReval\\HomeReval-Api\\API\\API.csproj",
+      "projectUniqueName": "F:\\School\\HomeReval\\HomeReval-Api\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "D:\\School\\HomeReval\\HomeReval-Api\\API\\API.csproj",
-      "packagesPath": "C:\\Users\\nickw\\.nuget\\packages\\",
-      "outputPath": "D:\\School\\HomeReval\\HomeReval-Api\\API\\obj\\",
+      "projectPath": "F:\\School\\HomeReval\\HomeReval-Api\\API\\API.csproj",
+      "packagesPath": "C:\\Users\\Gebruiker\\.nuget\\packages\\",
+      "outputPath": "F:\\School\\HomeReval\\HomeReval-Api\\API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\nickw\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Gebruiker\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
       ],
