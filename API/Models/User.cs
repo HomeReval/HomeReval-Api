@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,6 +17,7 @@ namespace API.Models
         [Required]
         public string Email { get; set; }
 
+        [JsonIgnore]
         [Required]
         public string Password { get; set; }
 

@@ -35,8 +35,9 @@ namespace API.Controllers
         [HttpGet("{id}", Name = "GetUser")]
         public IActionResult GetById(long id)
         {
-            var user = _context.Users.Find(id);
-            _context.Entry(user).Reference(p => p.UserGroup).Load();
+            var user = _context.Users
+                .Include(u => u.UserGroup)
+                .SingleOrDefault(x => x.ID == id);
             if (user == null)
             {
                 return NotFound();

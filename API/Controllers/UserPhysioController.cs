@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using API.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -27,10 +28,16 @@ namespace API.Controllers
                 .ToList();
         }
 
-        [HttpGet("{id}", Name = "GetUserPhysio")]
-        public IActionResult GetById(long id)
+        [HttpGet("{userID}-{physioID}", Name = "GetUserPhysio")]
+        public IActionResult GetById(long userID, long physioID)
         {
-            var userPhysio = _context.UserPhysios.Find(id);
+            var userPhysio = _context.UserPhysios
+                .Include(u => u.User)
+                    .ThenInclude(u => u.UserGroup)
+                .Include(p => p.Physio)
+                    .ThenInclude(p => p.UserGroup)
+                .SingleOrDefault( up => up.User_ID == userID && up.Physio_ID == physioID);
+
             if (userPhysio == null)
             {
                 return NotFound();
