@@ -92,7 +92,39 @@ namespace API
                 context.Add(new UserPhysio { User = user, Physio = fysio });
                 context.SaveChanges();
             }
-            
+
+            if (!context.Exercises.Any())
+            {
+                context.Add(new Exercise { Name = "Zit & Sta", Description = "Ga zitten en sta dan voor 20s", Recording = "Geweldige recording" });
+                context.Add(new Exercise { Name = "Slaap & Sta", Description = "Ga slapen en sta dan voor 20s", Recording = "Geweldige recording" });
+                context.Add(new Exercise { Name = "Ren & Vecht", Description = "Ga rennen en vecht dan voor 20s", Recording = "Geweldige recording" });
+                context.SaveChanges();
+            }
+
+            if (!context.UserExercises.Any())
+            {
+
+                User user = context.Users.Single(a => a.ID == 2);
+                Exercise exercise = context.Exercises.Single(a => a.ID == 1);
+                context.Add(new UserExercise { User = user, Exercise = exercise });
+                context.SaveChanges();
+            }
+
+            if (!context.ExercisePlannings.Any())
+            {
+                UserExercise userExercise = context.UserExercises.First();
+                context.Add(new ExercisePlanning { Date = DateTime.Now, Description = "Mevrouw bakkertjes, houd rekening met het feit dat u deze oefening GOED moet doen!", Amount = 100, IsComplete = false, UserExercise = userExercise});
+                context.SaveChanges();
+            }
+
+            if (!context.ExerciseResults.Any())
+            {
+                UserExercise userExercise = context.UserExercises.First();
+                context.Add(new ExerciseResult { Date = DateTime.Now, Duration = 10000, Score = 80, Result = "Geweldige opname met resultaten!", UserExercise = userExercise });
+                context.SaveChanges();
+            }
+
+
 
         }
 
