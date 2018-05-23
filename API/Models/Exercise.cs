@@ -18,21 +18,22 @@ namespace API.Models
         private DateTime Enddate { get; set; }
 
         [Required]
-        public string User_id { get; set; }
-        [ForeignKey("User_ID")]
-
-        public User User { get; set; }
-
-        [Required]
         public string Name { get; set; }
 
         public string Description { get; set; }
         [Required]
         public int Amount { get; set; }
+
+        [Required]
+        public string User_ID { get; set; }
+
+        [ForeignKey("User_ID")]
+        public User User { get; set; }
+
         [Required]
         public int ExerciseRecording_ID { get; set; }
-        [ForeignKey("ExerciseRecording_ID")]
 
+        [ForeignKey("ExerciseRecording_ID")]
         public ExerciseRecording ExerciseRecording { get; set; }
 
     }
