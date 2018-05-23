@@ -17,11 +17,15 @@ namespace API.Models
         public DbSet<User> Users { get; set; }
         public DbSet<UserGroup> UserGroups {get; set; }
         public DbSet<UserPhysio> UserPhysios { get; set; }
+        public DbSet<UserExercise> UserExercises { get; set; }
+        public DbSet<Exercise> Exercises { get; set; }
+        public DbSet<ExercisePlanning> ExercisePlannings { get; set; }
+        public DbSet<ExerciseResult> ExerciseResults { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserPhysio>()
-                .HasKey(c => new { c.UserID, c.PhysioID});
+                .HasKey(c => new { c.User_ID, c.Physio_ID});
         }
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)

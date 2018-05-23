@@ -17,15 +17,6 @@ namespace API.Controllers
         public UserGroupController(Context context)
         {
             _context = context;
-
-            if (_context.UserGroups.Count() == 0)
-            {
-                //_context.Users.Add(new User { FirstName = "test" });
-                _context.UserGroups.Add(new UserGroup { ID = Models.Type.User, Type = "User", Description = "The end user that will use the application through the Unity application" });
-                _context.UserGroups.Add(new UserGroup { ID = Models.Type.Manager, Type = "Manager", Description = "To manage and review statistics of its users" });
-                _context.UserGroups.Add(new UserGroup { ID = Models.Type.Administrator, Type = "Administrator", Description = "Highest role to manage Managers" });
-                _context.SaveChanges();
-            }
         }
 
         [HttpGet]

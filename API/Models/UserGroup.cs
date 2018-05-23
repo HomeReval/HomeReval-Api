@@ -22,8 +22,8 @@ namespace API.Models
 
     public enum Type : int
     {
-        User = 0,
+        User = 2,
         Manager = 1,
-        Administrator = 2
+        Administrator = 0
     }
 }

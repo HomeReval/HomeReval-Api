@@ -7,23 +7,22 @@ using System.Threading.Tasks;
 
 namespace API.Models
 {
-    public class ExerciseResult
+    public class ExercisePlanning
     {
-
         public long ID { get; set; }
 
         [Required]
         public DateTime Date { get; set; }
 
         [Required]
-        public int Duration { get; set; }
+        public string Description { get; set; }
 
         [Required]
-        public int Score { get; set; }
+        public int Amount { get; set; }
 
         //Result must become a file / blob
         [Required]
-        public string Result { get; set; }
+        public bool IsComplete { get; set; }
 
         public long UserExercise_ID { get; set; }
         [ForeignKey("UserExercise_ID")]

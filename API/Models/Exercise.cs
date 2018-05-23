@@ -13,27 +13,14 @@ namespace API.Models
         public long ID { get; set; }
 
         [Required]
-        public DateTime Startdate { get; set; }
-        [Required]
-        private DateTime Enddate { get; set; }
-
-        [Required]
-        public string User_id { get; set; }
-        [ForeignKey("User_ID")]
-
-        public User User { get; set; }
-
-        [Required]
         public string Name { get; set; }
 
+        [Required]
         public string Description { get; set; }
+        
+        // Recording must be a file / blob
         [Required]
-        public int Amount { get; set; }
-        [Required]
-        public int ExerciseRecording_ID { get; set; }
-        [ForeignKey("ExerciseRecording_ID")]
-
-        public ExerciseRecording ExerciseRecording { get; set; }
+        public string Recording { get; set; }
 
     }
 }

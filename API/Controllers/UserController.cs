@@ -22,12 +22,6 @@ namespace API.Controllers
         {
             _context = context;
             _encryptionManager = encryptionManager;
-
-            if (_context.Users.Count() == 0)
-            {
-                _context.Add(new User { Email = "projecthomereval@gmail.com", Password = "default", FirstName = "Admin", LastName = "Admin", Gender = 'm', UserGroup = _context.UserGroups.Find(API.Models.Type.Administrator) });
-                _context.SaveChanges();
-            }
         }
 
         [HttpGet]

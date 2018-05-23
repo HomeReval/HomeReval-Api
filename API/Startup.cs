@@ -51,4 +51,38 @@ namespace API
             app.UseMvc();
         }
     }
+
+    public static class SeedData
+    {
+
+        public static void Initialize(Context context)
+        {
+            context.Database.EnsureCreated();
+            if (!context.UserGroups.Any())
+            {
+                context.UserGroups.Add(new UserGroup { ID = Models.Type.User, Type = "User", Description = "The end user that will use the application through the Unity application" });
+                context.UserGroups.Add(new UserGroup { ID = Models.Type.Manager, Type = "Manager", Description = "To manage and review statistics of its users. The physiotherapist" });
+                context.UserGroups.Add(new UserGroup { ID = Models.Type.Administrator, Type = "Administrator", Description = "Highest role to manage Managers" });
+                context.SaveChanges();
+            }
+
+            if (!context.Users.Any())
+            {
+                // m625LrMSdPa9IZlnFAaR4O6X9gXQxC4PRlfuPnZRb9Kb4Ka2 = password
+                context.Add(new User { ID = 0, Email = "projecthomereval@gmail.com", Password = "m625LrMSdPa9IZlnFAaR4O6X9gXQxC4PRlfuPnZRb9Kb4Ka2", FirstName = "Admin", LastName = "Admin", Gender = 'm', UserGroup = context.UserGroups.Find(API.Models.Type.Administrator) });
+                context.Add(new User { ID = 1, Email = "fysio@hotmail.nl", Password = "m625LrMSdPa9IZlnFAaR4O6X9gXQxC4PRlfuPnZRb9Kb4Ka2", FirstName = "Admin", LastName = "Admin", Gender = 'm', UserGroup = context.UserGroups.Find(API.Models.Type.Manager) });
+                context.Add(new User { ID = 2, Email = "nickwindt@hotmail.nl", Password = "m625LrMSdPa9IZlnFAaR4O6X9gXQxC4PRlfuPnZRb9Kb4Ka2", FirstName = "Nick", LastName = "Windt", Gender = 'm', UserGroup = context.UserGroups.Find(API.Models.Type.User) });
+                context.SaveChanges();
+            }
+
+            if (!context.UserPhysios.Any())
+            {
+                context.Add(new UserPhysio { User = context.Users.Find(2), Physio = context.Users.Find(1) });
+                context.SaveChanges();
+            }
+            
+
+        }
+
+    }
 }
