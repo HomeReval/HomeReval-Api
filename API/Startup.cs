@@ -6,6 +6,7 @@ using API.Models;
 using API.Services.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -49,6 +50,13 @@ namespace API
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseMvc();
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+
+            app.UseAuthentication();
         }
     }
 
@@ -77,7 +85,11 @@ namespace API
 
             if (!context.UserPhysios.Any())
             {
-                context.Add(new UserPhysio { User = context.Users.Find(2), Physio = context.Users.Find(1) });
+
+                User user = context.Users.Single(a => a.ID == 2);
+                User fysio = context.Users.Single(a => a.ID == 1);
+
+                context.Add(new UserPhysio { User = user, Physio = fysio });
                 context.SaveChanges();
             }
             
