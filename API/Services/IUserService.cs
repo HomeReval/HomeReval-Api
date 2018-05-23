@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using API.Models;
+using API.Models.Tokens;
 
 namespace API.Services
 {
     public interface IUserService
     {
-
-        bool Login(string username, string password);
-
+        //void SignUp(string username, string password);
+        JsonWebToken SignIn(string username, string password);
+        User GetCurrentUser(string token);
+        JsonWebToken RefreshAccessToken(string token);
+        void RevokeRefreshToken(string token);
     }
 }

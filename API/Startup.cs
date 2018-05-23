@@ -1,20 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using API.Models;
+using API.Models.Tokens;
 using API.Services;
 using API.Services.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Pomelo.EntityFrameworkCore.MySql;
+using TokenManager.Api.Services;
 
 namespace API
 {
@@ -39,18 +45,44 @@ namespace API
             //{
             //    options.Filters.Add(new RequireHttpsAttribute());
             //});
-
+                       
             services.AddMvc();
             services.AddLogging();
             services.AddSingleton<IEncryptionManager, EncryptionManager>();
             services.AddSingleton<IUserService, UserService>();
+            services.AddSingleton<IJwtHandler, JwtHandler>();
+            services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
+            services.AddTransient<TokenManagerMiddleware>();
+            services.AddTransient<ITokenManager, Services.TokenManager>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+
+            var jwtSection = Configuration.GetSection("jwt");
+            var jwtOptions = new JwtOptions();
+            jwtSection.Bind(jwtOptions);
+            services.AddAuthentication()
+                .AddJwtBearer(cfg =>
+                {
+                    cfg.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey)),
+                        ValidIssuer = jwtOptions.Issuer,
+                        ValidateAudience = false,
+                        ValidateLifetime = true
+                    };
+                });
+            services.Configure<JwtOptions>(jwtSection);
+
         }
 
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,
+            ILoggerFactory loggerFactory)
         {
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
-            app.UseMvc();
+            loggerFactory.AddDebug().AddConsole();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
             // VPS settings
             app.UseForwardedHeaders(new ForwardedHeadersOptions
@@ -58,8 +90,14 @@ namespace API
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
 
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+            app.UseMiddleware<ErrorHandlerMiddleware>();
             app.UseAuthentication();
+            app.UseMiddleware<TokenManagerMiddleware>();
+            app.UseMvc();
         }
+
     }
 
     // Throw default Data is the database if empty
@@ -80,9 +118,9 @@ namespace API
             if (!context.Users.Any())
             {
                 // m625LrMSdPa9IZlnFAaR4O6X9gXQxC4PRlfuPnZRb9Kb4Ka2 = password
-                context.Add(new User { ID = 0, Email = "projecthomereval@gmail.com", Password = "m625LrMSdPa9IZlnFAaR4O6X9gXQxC4PRlfuPnZRb9Kb4Ka2", FirstName = "Admin", LastName = "Admin", Gender = 'm', UserGroup = context.UserGroups.Find(API.Models.Type.Administrator) });
-                context.Add(new User { ID = 1, Email = "fysio@hotmail.nl", Password = "m625LrMSdPa9IZlnFAaR4O6X9gXQxC4PRlfuPnZRb9Kb4Ka2", FirstName = "Admin", LastName = "Admin", Gender = 'm', UserGroup = context.UserGroups.Find(API.Models.Type.Manager) });
-                context.Add(new User { ID = 2, Email = "nickwindt@hotmail.nl", Password = "m625LrMSdPa9IZlnFAaR4O6X9gXQxC4PRlfuPnZRb9Kb4Ka2", FirstName = "Nick", LastName = "Windt", Gender = 'm', UserGroup = context.UserGroups.Find(API.Models.Type.User) });
+                context.Add(new User {Email = "projecthomereval@gmail.com", Password = "m625LrMSdPa9IZlnFAaR4O6X9gXQxC4PRlfuPnZRb9Kb4Ka2", FirstName = "Admin", LastName = "Admin", Gender = 'm', UserGroup = context.UserGroups.Find(API.Models.Type.Administrator) });
+                context.Add(new User {Email = "fysio@hotmail.nl", Password = "m625LrMSdPa9IZlnFAaR4O6X9gXQxC4PRlfuPnZRb9Kb4Ka2", FirstName = "Admin", LastName = "Admin", Gender = 'm', UserGroup = context.UserGroups.Find(API.Models.Type.Manager) });
+                context.Add(new User {Email = "nickwindt@hotmail.nl", Password = "m625LrMSdPa9IZlnFAaR4O6X9gXQxC4PRlfuPnZRb9Kb4Ka2", FirstName = "Nick", LastName = "Windt", Gender = 'm', UserGroup = context.UserGroups.Find(API.Models.Type.User) });
                 context.SaveChanges();
             }
 

@@ -85,6 +85,24 @@ namespace API.Migrations
                     b.ToTable("ExerciseResults");
                 });
 
+            modelBuilder.Entity("API.Models.Tokens.RefreshToken", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Revoked");
+
+                    b.Property<string>("Token");
+
+                    b.Property<long>("User_ID");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("User_ID");
+
+                    b.ToTable("RefreshTokens");
+                });
+
             modelBuilder.Entity("API.Models.User", b =>
                 {
                     b.Property<long>("ID")
@@ -172,6 +190,14 @@ namespace API.Migrations
                     b.HasOne("API.Models.UserExercise", "UserExercise")
                         .WithMany()
                         .HasForeignKey("UserExercise_ID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("API.Models.Tokens.RefreshToken", b =>
+                {
+                    b.HasOne("API.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("User_ID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

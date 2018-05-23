@@ -12533,25 +12533,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Gebruiker\\.nuget\\packages\\": {},
+    "C:\\Users\\nickw\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\School\\HomeReval\\HomeReval-Api\\tokendemo\\apitest.csproj",
+      "projectUniqueName": "D:\\School\\HomeReval\\HomeReval-Api\\tokendemo\\apitest.csproj",
       "projectName": "apitest",
-      "projectPath": "F:\\School\\HomeReval\\HomeReval-Api\\tokendemo\\apitest.csproj",
-      "packagesPath": "C:\\Users\\Gebruiker\\.nuget\\packages\\",
-      "outputPath": "F:\\School\\HomeReval\\HomeReval-Api\\tokendemo\\obj\\",
+      "projectPath": "D:\\School\\HomeReval\\HomeReval-Api\\tokendemo\\apitest.csproj",
+      "packagesPath": "C:\\Users\\nickw\\.nuget\\packages\\",
+      "outputPath": "D:\\School\\HomeReval\\HomeReval-Api\\tokendemo\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Gebruiker\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\nickw\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
       ],
