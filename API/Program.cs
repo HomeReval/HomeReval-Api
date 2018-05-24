@@ -40,6 +40,7 @@ namespace API
         {
             var host = WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseUrls(urls: "http://0.0.0.0:5000")
                 .Build();
 
             using (var scope = host.Services.CreateScope())
