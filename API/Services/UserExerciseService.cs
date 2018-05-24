@@ -1,6 +1,4 @@
-﻿using API.Services;
-
-namespace API
+﻿namespace API.Services
 {
     public class UserExerciseService : IUserExerciseService
     {
