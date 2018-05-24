@@ -61,15 +61,10 @@ namespace API.Controllers
             return NoContent();
         }
 
-        [HttpPost("token/{token}/refresh")]
-        [AllowAnonymous]
-        public IActionResult RefreshAccessToken(string token)
-            => Ok(_userService.RefreshAccessToken(token));
-
         [HttpPost("token/refresh")]
         [AllowAnonymous]
-        public IActionResult RefreshAccessToken2([FromBody] string refreshtoken)
-            => Ok(_userService.RefreshAccessToken(refreshtoken));
+        public IActionResult RefreshAccessToken2([FromBody] RefreshToken refreshToken)
+            => Ok(_userService.RefreshAccessToken(refreshToken.Token));
 
 
         //[HttpGet("{id}", Name = "GetUser")]

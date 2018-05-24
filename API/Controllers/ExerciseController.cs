@@ -39,6 +39,13 @@ namespace API.Controllers
             return Ok(_exerciseService.Get(token));
         }
 
+        [AllowAnonymous] // Only Manager can access this
+        [HttpPost]
+        public IActionResult Add([FromBody] ClientExercise clientExercise)
+        {
+            byte[] Recording = _exerciseService.Compress(clientExercise.Recording);
+            _exerciseService.Add(null, new Exercise { Name = clientExercise.Name, Description = clientExercise.Description, Recording = Recording });
+            return NoContent();
+        }
     }
-
 }

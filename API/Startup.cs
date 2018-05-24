@@ -135,9 +135,9 @@ namespace API
 
             if (!context.Exercises.Any())
             {
-                context.Add(new Exercise { Name = "Zit & Sta", Description = "Ga zitten en sta dan voor 20s", Recording = "Geweldige recording" });
-                context.Add(new Exercise { Name = "Slaap & Sta", Description = "Ga slapen en sta dan voor 20s", Recording = "Geweldige recording" });
-                context.Add(new Exercise { Name = "Ren & Vecht", Description = "Ga rennen en vecht dan voor 20s", Recording = "Geweldige recording" });
+                context.Add(new Exercise { Name = "Zit & Sta", Description = "Ga zitten en sta dan voor 20s", Recording = new byte[8] });
+                context.Add(new Exercise { Name = "Slaap & Sta", Description = "Ga slapen en sta dan voor 20s", Recording = new byte[8] });
+                context.Add(new Exercise { Name = "Ren & Vecht", Description = "Ga rennen en vecht dan voor 20s", Recording = new byte[8] });
                 context.SaveChanges();
             }
 

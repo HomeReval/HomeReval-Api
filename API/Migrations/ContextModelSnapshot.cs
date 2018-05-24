@@ -31,7 +31,7 @@ namespace API.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<string>("Recording")
+                    b.Property<byte[]>("Recording")
                         .IsRequired();
 
                     b.HasKey("ID");

@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace API.Services
@@ -28,7 +29,8 @@ namespace API.Services
 
         public void Add(string token, object o)
         {
-            throw new NotImplementedException();
+            var exercise = (Exercise)o;
+            AddExercise(exercise);         
         }
 
         public void Delete(string token, object o)
@@ -41,6 +43,26 @@ namespace API.Services
             throw new NotImplementedException();
         }
 
+        public byte[] Compress (string recording)
+        {
+            return Convert.FromBase64String(recording);
+        }
+
+        public string Compress(byte[] recording)
+        {
+            return Convert.ToBase64String(recording);
+        }
+
+        private void AddExercise(Exercise exercise)
+        {
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
+                dbContext.Exercises.Add(exercise);
+                dbContext.SaveChanges();
+            }
+        }
+
         private List<Exercise> GetExercise(long User_ID)
         {
             using (var scope = _scopeFactory.CreateScope())
@@ -48,7 +70,7 @@ namespace API.Services
                 var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
                 var exercises = (from ue in dbContext.UserExercises
                                  join e in dbContext.Exercises on ue.Exercise_ID equals e.ID
-                                 where ue.ID == User_ID
+                                 where ue.User_ID == User_ID
                                  select new Exercise
                                  {
                                      ID = e.ID,
@@ -61,7 +83,6 @@ namespace API.Services
                 }
                 return exercises;
             }
-
         }
     }
 }

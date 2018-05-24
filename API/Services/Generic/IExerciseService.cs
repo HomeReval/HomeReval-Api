@@ -8,8 +8,7 @@ namespace API.Services
 {
     public interface IExerciseService : IService
     {
-
-
-
+        string Compress(byte[] data);
+        byte[] Compress(string data);
     }
 }

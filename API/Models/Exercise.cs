@@ -20,7 +20,7 @@ namespace API.Models
         
         // Recording must be a file / blob
         [Required]
-        public string Recording { get; set; }
+        public byte[] Recording { get; set; }
 
     }
 }
