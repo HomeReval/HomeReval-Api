@@ -43,8 +43,14 @@ namespace API.Controllers
         [HttpPost]
         public IActionResult Add([FromBody] ClientExercise clientExercise)
         {
+            var token = _httpContextAccessor
+                .HttpContext.Request.Headers["authorization"]
+                .Single()
+                .Split(" ")
+                .Last();
+
             byte[] Recording = _exerciseService.Compress(clientExercise.Recording);
-            _exerciseService.Add(null, new Exercise { Name = clientExercise.Name, Description = clientExercise.Description, Recording = Recording });
+            _exerciseService.Add(token, new Exercise { Name = clientExercise.Name, Description = clientExercise.Description, Recording = Recording });
             return NoContent();
         }
     }

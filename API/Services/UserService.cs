@@ -42,31 +42,9 @@ namespace API.Services
                 throw new Exception("Invalid credentials");
             }
 
-            var jwt = _jwtHandler.Create(user.ID);
-            var refreshToken = _passwordHasher.HashPassword(user, Guid.NewGuid().ToString())
-                .Replace("+", string.Empty)
-                .Replace("=", string.Empty)
-                .Replace("/", string.Empty);
-
-            var refresh = GetRefreshToken(user.ID);
-            // Does the user already have a valid refresh token?
-            if (refresh == null)
-            {
-                jwt.RefreshToken = refreshToken;
-
-                using (var scope = _scopeFactory.CreateScope())
-                {
-                    var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
-                    dbContext.RefreshTokens.Add(new RefreshToken { User_ID = user.ID, Token = refreshToken });
-                    dbContext.SaveChanges();
-                }
-
-            } else
-            {
-                jwt.RefreshToken = refresh.Token;
-            }
-
-            
+            var jwt = _jwtHandler.Create(user.ID);           
+            var refresh = GetOrAddRefreshToken(user.ID);
+            jwt.RefreshToken = refresh.Token;
 
             return jwt;
         }
@@ -104,8 +82,6 @@ namespace API.Services
                 dbContext.Users.Add(user);
                 dbContext.SaveChanges();
             }
-
-
         }
 
         public JsonWebToken RefreshAccessToken(string token)
@@ -123,7 +99,7 @@ namespace API.Services
             refreshToken.Revoked = true;
         }
 
-        private User GetUser(string username)
+        public User GetUser(string username)
         {
             using (var scope = _scopeFactory.CreateScope())
             {
@@ -131,13 +107,13 @@ namespace API.Services
                 var user = dbContext.Users.SingleOrDefault(x => string.Equals(x.Email, username, StringComparison.InvariantCultureIgnoreCase));
                 if (user == null)
                 {
-                    throw new Exception("No user found");
+                    throw new Exception("User was not found.");
                 }
                 return user;
             }
         }
 
-        private User GetUser(long User_ID)
+        public User GetUser(long User_ID)
         {
             using (var scope = _scopeFactory.CreateScope())
             {
@@ -147,21 +123,29 @@ namespace API.Services
                     .SingleOrDefault(x => x.ID == User_ID);
                 if (user == null)
                 {
-                    throw new Exception("No user found");
+                    throw new Exception("User was not found.");
                 }
                 return user;
             }
         }
 
-        private RefreshToken GetRefreshToken(long User_ID)
+        public RefreshToken GetOrAddRefreshToken(long User_ID)
         {
             using (var scope = _scopeFactory.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
                 var refreshToken = dbContext.RefreshTokens.SingleOrDefault(x => x.User_ID == User_ID && x.Revoked != true);
+                string NewRefreshToken = "";
                 if (refreshToken == null)
                 {
-                    throw new Exception("Refresh token was not found.");
+                    NewRefreshToken = _passwordHasher.HashPassword(GetUser(User_ID), Guid.NewGuid().ToString())
+                        .Replace("+", string.Empty)
+                        .Replace("=", string.Empty)
+                        .Replace("/", string.Empty);
+                    refreshToken = new RefreshToken { User_ID = User_ID, Token = NewRefreshToken };
+                    dbContext.RefreshTokens.Add(refreshToken);
+                    dbContext.SaveChanges();
+                    return refreshToken;
                 }
                 if (refreshToken.Revoked)
                 {
@@ -171,7 +155,7 @@ namespace API.Services
             }
         }
 
-        private RefreshToken GetRefreshToken(string token)
+        public RefreshToken GetRefreshToken(string token)
         {
             using (var scope = _scopeFactory.CreateScope())
             {

@@ -15,11 +15,13 @@ namespace API.Services
 
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly IJwtHandler _jwtHandler;
+        private readonly IUserService _userService;
 
-        public ExerciseService(IServiceScopeFactory scopeFactory, IJwtHandler jwtHandler)
+        public ExerciseService(IServiceScopeFactory scopeFactory, IJwtHandler jwtHandler, IUserService userService)
         {
             _scopeFactory = scopeFactory;
             _jwtHandler = jwtHandler;
+            _userService = userService;
         }
 
 
@@ -29,6 +31,13 @@ namespace API.Services
 
         public void Add(string token, object o)
         {
+            var user = _userService.GetUser(_jwtHandler.GetUserID(token));
+
+            if (user.UserGroup.ID != Models.Type.Manager && user.UserGroup.ID != Models.Type.Administrator)
+            {
+                throw new Exception("UserGroup: " + user.UserGroup.Type + " , does not have the rights to add a new exercise");
+            }
+
             var exercise = (Exercise)o;
             AddExercise(exercise);         
         }
