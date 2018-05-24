@@ -115,7 +115,7 @@ namespace API.Services
             {
                 throw new Exception("Refresh token was revoked");
             }
-            var jwt = _jwtHandler.Create(refreshToken.User.ID);;
+            var jwt = _jwtHandler.Create(refreshToken.User_ID);;
             jwt.RefreshToken = refreshToken.Token;
 
             return jwt;
@@ -167,7 +167,7 @@ namespace API.Services
             using (var scope = _scopeFactory.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
-                return dbContext.RefreshTokens.SingleOrDefault(x => x.Token == token && x.Revoked != true);
+                return dbContext.RefreshTokens.SingleOrDefault(x => x.Token == token);
             }
         }
 

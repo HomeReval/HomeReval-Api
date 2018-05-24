@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Models;
+using API.Models.Tokens;
 using API.Services;
 using API.Services.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -23,14 +24,12 @@ namespace API.Controllers
     {
 
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly Context _context;
         private readonly IUserService _userService;
         private readonly ITokenManager _tokenManager;
 
-        public UserController(IHttpContextAccessor httpContextAccessor, Context context, IUserService userService, ITokenManager tokenManager)
+        public UserController(IHttpContextAccessor httpContextAccessor, IUserService userService, ITokenManager tokenManager)
         {
             _httpContextAccessor = httpContextAccessor;
-            _context = context;
             _userService = userService;
             _tokenManager = tokenManager;
         }
@@ -49,10 +48,22 @@ namespace API.Controllers
         }
              
 
-        [HttpPost("sign-in")]
+        [HttpPost("login")]
         [AllowAnonymous]
         public IActionResult SignIn([FromBody] SignIn request)
             => Ok(_userService.SignIn(request.Username, request.Password));
+
+
+        [HttpPost("token/{token}/refresh")]
+        [AllowAnonymous]
+        public IActionResult RefreshAccessToken(string token)
+            => Ok(_userService.RefreshAccessToken(token));
+
+        [HttpPost("token/refresh")]
+        [AllowAnonymous]
+        public IActionResult RefreshAccessToken2([FromBody] string refreshtoken)
+            => Ok(_userService.RefreshAccessToken(refreshtoken));
+
 
         //[HttpGet("{id}", Name = "GetUser")]
         //public IActionResult GetById(long id)
