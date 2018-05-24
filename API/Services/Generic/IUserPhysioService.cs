@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace API.Services
 {
-    interface IUserPhysioService : IService
+    public interface IUserPhysioService : IService
     {
     }
 }

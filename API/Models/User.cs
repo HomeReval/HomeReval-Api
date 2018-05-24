@@ -18,7 +18,7 @@ namespace API.Models
         public string Email { get; set; }
 
         // Because of security reasons, the password is never returned in the Controller
-        [JsonIgnore]
+        //[JsonIgnore]
         [Required]
         public string Password { get; set; }
 

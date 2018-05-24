@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 using API.Services;
+using API.Services.Security;
 using Microsoft.AspNetCore.Http;
 
 namespace API.Services.Middleware

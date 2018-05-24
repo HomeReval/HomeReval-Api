@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace API.Services
 {
-    interface IUserExerciseService : IService
+    public interface IUserExerciseService : IService
     {
     }
 }

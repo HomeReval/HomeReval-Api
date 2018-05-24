@@ -103,6 +103,43 @@ namespace API.Services
             return jwt;
         }
 
+        public void SignUp(User user)
+        {
+
+            if (string.IsNullOrWhiteSpace(user.Email))
+            {
+                throw new Exception("Email can not be empty.");
+            }
+            if (string.IsNullOrWhiteSpace(user.Password))
+            {
+                throw new Exception("Password can not be empty.");
+            }
+            if (string.IsNullOrWhiteSpace(user.FirstName))
+            {
+                throw new Exception("Firstname can not be empty.");
+            }
+            if (string.IsNullOrWhiteSpace(user.LastName))
+            {
+                throw new Exception("Lastname can not be empty.");
+            }
+            if (user.Gender != 'm' && user.Gender != 'f')
+            {
+                throw new Exception("Invalid Gender supplied");
+            }
+
+            user.Password = _encryptionManager.Encrypt(user.Password);
+            user.UserGroup_ID = API.Models.Type.User;
+
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
+                dbContext.Users.Add(user);
+                dbContext.SaveChanges();
+            }
+
+
+        }
+
         public JsonWebToken RefreshAccessToken(string token)
         {
             var refreshToken = GetRefreshToken(token);

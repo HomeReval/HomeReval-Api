@@ -43,7 +43,7 @@ namespace API.Controllers
                 .Split(" ")
                 .Last();
 
-            return Ok(_userService.GetCurrentUser(token));
+            return Ok(_userService.Get(token));
 
         }
              
@@ -53,6 +53,13 @@ namespace API.Controllers
         public IActionResult SignIn([FromBody] SignIn request)
             => Ok(_userService.SignIn(request.Username, request.Password));
 
+        [HttpPost("create")]
+        [AllowAnonymous]
+        public IActionResult SignUp([FromBody] User user)
+        {
+            _userService.SignUp(user);
+            return NoContent();
+        }
 
         [HttpPost("token/{token}/refresh")]
         [AllowAnonymous]

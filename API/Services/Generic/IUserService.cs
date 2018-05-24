@@ -7,6 +7,7 @@ namespace API.Services
     {
         //void SignUp(string username, string password);
         JsonWebToken SignIn(string username, string password);
+        void SignUp(User user);
         User Get(string token);
         JsonWebToken RefreshAccessToken(string token);
         void RevokeRefreshToken(string token);
