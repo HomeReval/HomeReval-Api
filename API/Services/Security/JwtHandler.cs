@@ -49,5 +49,18 @@ namespace API.Services.Security
                 Expires = exp
             };
         }
+
+        public long GetUserID(string token)
+        {
+            try
+            {
+                var jwtToken = new JwtSecurityToken(token);
+                return Convert.ToInt64(jwtToken.Subject);
+            } catch (Exception e)
+            {
+                throw new Exception("Invalid token supplied");
+            }            
+        }
+
     }
 }

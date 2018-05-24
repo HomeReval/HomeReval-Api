@@ -10,11 +10,11 @@ namespace API.Controllers
 {
 
     [Route("api/[controller]")]
-    public class ExerciseResultResultController : ControllerBase
+    public class ExerciseResultController : ControllerBase
     {
         private readonly Context _context;
 
-        public ExerciseResultResultController(Context context)
+        public ExerciseResultController(Context context)
         {
             _context = context;
         }

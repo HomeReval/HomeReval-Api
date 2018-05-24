@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using API.Models;
 using API.Models.Tokens;
 using API.Services;
@@ -13,14 +11,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Pomelo.EntityFrameworkCore.MySql;
 
 namespace API
 {
@@ -64,7 +59,6 @@ namespace API
             services.AddTransient<ITokenManager, TokenManager>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-
             var jwtSection = Configuration.GetSection("jwt");
             var jwtOptions = new JwtOptions();
             jwtSection.Bind(jwtOptions);
@@ -80,7 +74,6 @@ namespace API
                     };
                 });
             services.Configure<JwtOptions>(jwtSection);
-
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,
@@ -105,13 +98,11 @@ namespace API
             app.UseMiddleware<TokenManagerMiddleware>();
             app.UseMvc();
         }
-
     }
 
     // Throw default Data is the database if empty
     public static class SeedData
     {
-
         public static void Initialize(Context context)
         {
             context.Database.EnsureCreated();
@@ -172,10 +163,6 @@ namespace API
                 context.Add(new ExerciseResult { Date = DateTime.Now, Duration = 10000, Score = 80, Result = "Geweldige opname met resultaten!", UserExercise = userExercise });
                 context.SaveChanges();
             }
-
-
-
         }
-
     }
 }

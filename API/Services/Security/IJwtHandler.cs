@@ -7,5 +7,6 @@ namespace API.Services.Security
     public interface IJwtHandler
     {
         JsonWebToken Create(long User_ID);
+        long GetUserID(string token);
     }
 }

@@ -29,46 +29,14 @@ namespace API.Services
             _passwordHasher = passwordHasher;
         }
 
-        //public void SignUp(string username, string password)
-        //{
-        //    if (string.IsNullOrWhiteSpace(username))
-        //    {
-        //        throw new Exception($"Username can not be empty.");
-        //    }
-        //    if (string.IsNullOrWhiteSpace(password))
-        //    {
-        //        throw new Exception($"Password can not be empty.");
-        //    }
-        //    if (GetUser(username) != null)
-        //    {
-        //        throw new Exception($"Username '{username}' is already in use.");
-        //    }
-        //    _users.Add(new User { Username = username, Password = password } );
-        //}
-
         public User Get(string token)
         {
-            try
-            {
-                var jwtToken = new JwtSecurityToken(token);
-                long ID = Convert.ToInt64(jwtToken.Subject);
-                return GetUser(ID);
-
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Invalid token supplied");
-            }
+            return GetUser(_jwtHandler.GetUserID(token));
         }
 
         public JsonWebToken SignIn(string username, string password)
         {
             var user = GetUser(username);
-            if (user == null)
-            {
-                throw new Exception("No user found");
-            }
-
             if (!_encryptionManager.Compare(password, user.Password))
             {
                 throw new Exception("Invalid credentials");
@@ -143,14 +111,6 @@ namespace API.Services
         public JsonWebToken RefreshAccessToken(string token)
         {
             var refreshToken = GetRefreshToken(token);
-            if (refreshToken == null)
-            {
-                throw new Exception("Refresh token was not found.");
-            }
-            if (refreshToken.Revoked)
-            {
-                throw new Exception("Refresh token was revoked");
-            }
             var jwt = _jwtHandler.Create(refreshToken.User_ID);;
             jwt.RefreshToken = refreshToken.Token;
 
@@ -160,14 +120,6 @@ namespace API.Services
         public void RevokeRefreshToken(string token)
         {
             var refreshToken = GetRefreshToken(token);
-            if (refreshToken == null)
-            {
-                throw new Exception("Refresh token was not found.");
-            }
-            if (refreshToken.Revoked)
-            {
-                throw new Exception("Refresh token was already revoked.");
-            }
             refreshToken.Revoked = true;
         }
 
@@ -176,7 +128,12 @@ namespace API.Services
             using (var scope = _scopeFactory.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
-                return dbContext.Users.SingleOrDefault(x => string.Equals(x.Email, username, StringComparison.InvariantCultureIgnoreCase));
+                var user = dbContext.Users.SingleOrDefault(x => string.Equals(x.Email, username, StringComparison.InvariantCultureIgnoreCase));
+                if (user == null)
+                {
+                    throw new Exception("No user found");
+                }
+                return user;
             }
         }
 
@@ -185,9 +142,14 @@ namespace API.Services
             using (var scope = _scopeFactory.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
-                return dbContext.Users
+                var user = dbContext.Users
                     .Include(x => x.UserGroup)
                     .SingleOrDefault(x => x.ID == User_ID);
+                if (user == null)
+                {
+                    throw new Exception("No user found");
+                }
+                return user;
             }
         }
 
@@ -196,7 +158,16 @@ namespace API.Services
             using (var scope = _scopeFactory.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
-                return dbContext.RefreshTokens.SingleOrDefault(x => x.User_ID == User_ID && x.Revoked != true);
+                var refreshToken = dbContext.RefreshTokens.SingleOrDefault(x => x.User_ID == User_ID && x.Revoked != true);
+                if (refreshToken == null)
+                {
+                    throw new Exception("Refresh token was not found.");
+                }
+                if (refreshToken.Revoked)
+                {
+                    throw new Exception("Refresh token was revoked");
+                }
+                return refreshToken;
             }
         }
 
@@ -205,7 +176,16 @@ namespace API.Services
             using (var scope = _scopeFactory.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
-                return dbContext.RefreshTokens.SingleOrDefault(x => x.Token == token && x.Revoked != true);
+                var refreshToken = dbContext.RefreshTokens.SingleOrDefault(x => x.Token == token && x.Revoked != true);
+                if (refreshToken == null)
+                {
+                    throw new Exception("Refresh token was not found.");
+                }
+                if (refreshToken.Revoked)
+                {
+                    throw new Exception("Refresh token was revoked");
+                }
+                return refreshToken;
             }
         }
 
