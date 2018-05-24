@@ -14,8 +14,6 @@ namespace API.Services
 {
     public class UserService : IUserService
     {
-        //private readonly ISet<User> _users = new HashSet<User>();
-        //private readonly ISet<RefreshToken> _refreshTokens = new HashSet<RefreshToken>();
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly IJwtHandler _jwtHandler;
         private readonly IEncryptionManager _encryptionManager;
@@ -47,6 +45,21 @@ namespace API.Services
         //    }
         //    _users.Add(new User { Username = username, Password = password } );
         //}
+
+        public User Get(string token)
+        {
+            try
+            {
+                var jwtToken = new JwtSecurityToken(token);
+                long ID = Convert.ToInt64(jwtToken.Subject);
+                return GetUser(ID);
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Invalid token supplied");
+            }
+        }
 
         public JsonWebToken SignIn(string username, string password)
         {
@@ -88,20 +101,6 @@ namespace API.Services
             
 
             return jwt;
-        }
-
-        public User GetCurrentUser(string token)
-        {
-            try
-            {
-                var jwtToken = new JwtSecurityToken(token);
-                long ID = Convert.ToInt64(jwtToken.Subject);
-                return GetUser(ID);
-
-            } catch (Exception e)
-            {
-                throw new Exception("Invalid token supplied");
-            }                    
         }
 
         public JsonWebToken RefreshAccessToken(string token)
@@ -149,7 +148,9 @@ namespace API.Services
             using (var scope = _scopeFactory.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
-                return dbContext.Users.SingleOrDefault(x => x.ID == User_ID);
+                return dbContext.Users
+                    .Include(x => x.UserGroup)
+                    .SingleOrDefault(x => x.ID == User_ID);
             }
         }
 
@@ -167,7 +168,7 @@ namespace API.Services
             using (var scope = _scopeFactory.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
-                return dbContext.RefreshTokens.SingleOrDefault(x => x.Token == token);
+                return dbContext.RefreshTokens.SingleOrDefault(x => x.Token == token && x.Revoked != true);
             }
         }
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using API.Models;
 using API.Models.Tokens;
 using API.Services;
+using API.Services.Middleware;
 using API.Services.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,7 +21,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Pomelo.EntityFrameworkCore.MySql;
-using TokenManager.Api.Services;
 
 namespace API
 {
@@ -49,11 +49,19 @@ namespace API
             services.AddMvc();
             services.AddLogging();
             services.AddSingleton<IEncryptionManager, EncryptionManager>();
+
+            services.AddSingleton<IExercisePlanningService, ExercisePlanningService>();
+            services.AddSingleton<IExerciseResultService, ExerciseResultService>();
+            services.AddSingleton<IExerciseService, ExerciseService>();
+            services.AddSingleton<IUserExerciseService, UserExerciseService>();
+            services.AddSingleton<IUserGroupService, UserGroupService>();
+            services.AddSingleton<IUserPhysioService, UserPhysioService>();
             services.AddSingleton<IUserService, UserService>();
+
             services.AddSingleton<IJwtHandler, JwtHandler>();
             services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
             services.AddTransient<TokenManagerMiddleware>();
-            services.AddTransient<ITokenManager, Services.TokenManager>();
+            services.AddTransient<ITokenManager, TokenManager>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 
