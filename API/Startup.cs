@@ -63,87 +63,94 @@ namespace API
 
             var url = "http://homereval.ga";
 
-            services.AddCors(options =>
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
-                // BEGIN01
-                options.AddPolicy("AllowSpecificOrigins",
-                builder =>
-                {
-                    builder.WithOrigins(url);
-                });
-                // END01
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
 
-                // BEGIN02
-                options.AddPolicy("AllowAllOrigins",
-                    builder =>
-                    {
-                        builder.AllowAnyOrigin();
-                    });
-                // END02
+            //services.AddCors(options =>
+            //{
+            //    // BEGIN01
+            //    options.AddPolicy("AllowSpecificOrigins",
+            //    builder =>
+            //    {
+            //        builder.WithOrigins(url);
+            //    });
+            //    // END01
 
-                // BEGIN03
-                options.AddPolicy("AllowSpecificMethods",
-                    builder =>
-                    {
-                        builder.WithOrigins(url)
-                               .WithMethods("GET", "POST", "HEAD");
-                    });
-                // END03
+            //    // BEGIN02
+            //    options.AddPolicy("AllowAllOrigins",
+            //        builder =>
+            //        {
+            //            builder.AllowAnyOrigin();
+            //        });
+            //    // END02
 
-                // BEGIN04
-                options.AddPolicy("AllowAllMethods",
-                    builder =>
-                    {
-                        builder.WithOrigins(url)
-                               .AllowAnyMethod();
-                    });
-                // END04
+            //    // BEGIN03
+            //    options.AddPolicy("AllowSpecificMethods",
+            //        builder =>
+            //        {
+            //            builder.WithOrigins(url)
+            //                   .WithMethods("GET", "POST", "HEAD");
+            //        });
+            //    // END03
 
-                // BEGIN05
-                options.AddPolicy("AllowHeaders",
-                    builder =>
-                    {
-                        builder.WithOrigins(url)
-                               .WithHeaders("accept", "content-type", "origin", "x-custom-header");
-                    });
-                // END05
+            //    // BEGIN04
+            //    options.AddPolicy("AllowAllMethods",
+            //        builder =>
+            //        {
+            //            builder.WithOrigins(url)
+            //                   .AllowAnyMethod();
+            //        });
+            //    // END04
 
-                // BEGIN06
-                options.AddPolicy("AllowAllHeaders",
-                    builder =>
-                    {
-                        builder.WithOrigins(url)
-                               .AllowAnyHeader();
-                    });
-                // END06
+            //    // BEGIN05
+            //    options.AddPolicy("AllowHeaders",
+            //        builder =>
+            //        {
+            //            builder.WithOrigins(url)
+            //                   .WithHeaders("accept", "content-type", "origin", "x-custom-header");
+            //        });
+            //    // END05
 
-                // BEGIN07
-                options.AddPolicy("ExposeResponseHeaders",
-                    builder =>
-                    {
-                        builder.WithOrigins(url)
-                               .WithExposedHeaders("x-custom-header");
-                    });
-                // END07
+            //    // BEGIN06
+            //    options.AddPolicy("AllowAllHeaders",
+            //        builder =>
+            //        {
+            //            builder.WithOrigins(url)
+            //                   .AllowAnyHeader();
+            //        });
+            //    // END06
 
-                // BEGIN08
-                options.AddPolicy("AllowCredentials",
-                    builder =>
-                    {
-                        builder.WithOrigins(url)
-                               .AllowCredentials();
-                    });
-                // END08
+            //    // BEGIN07
+            //    options.AddPolicy("ExposeResponseHeaders",
+            //        builder =>
+            //        {
+            //            builder.WithOrigins(url)
+            //                   .WithExposedHeaders("x-custom-header");
+            //        });
+            //    // END07
 
-                // BEGIN09
-                options.AddPolicy("SetPreflightExpiration",
-                    builder =>
-                    {
-                        builder.WithOrigins(url)
-                               .SetPreflightMaxAge(TimeSpan.FromSeconds(2520));
-                    });
-                // END09
-            });
+            //    // BEGIN08
+            //    options.AddPolicy("AllowCredentials",
+            //        builder =>
+            //        {
+            //            builder.WithOrigins(url)
+            //                   .AllowCredentials();
+            //        });
+            //    // END08
+
+            //    // BEGIN09
+            //    options.AddPolicy("SetPreflightExpiration",
+            //        builder =>
+            //        {
+            //            builder.WithOrigins(url)
+            //                   .SetPreflightMaxAge(TimeSpan.FromSeconds(2520));
+            //        });
+            //    // END09
+            //});
 
             services.Configure<MvcOptions>(options =>
             {
@@ -170,6 +177,8 @@ namespace API
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,
             ILoggerFactory loggerFactory)
         {
+            app.UseCors("MyPolicy");
+
             loggerFactory.AddDebug().AddConsole();
             if (env.IsDevelopment())
             {
@@ -187,8 +196,6 @@ namespace API
             app.UseMiddleware<ErrorHandlerMiddleware>();
             app.UseAuthentication();
             app.UseMiddleware<TokenManagerMiddleware>();
-
-            app.UseCors("AllowSpecificOrigins");
 
             app.UseMvc();
         }
