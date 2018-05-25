@@ -152,10 +152,10 @@ namespace API
             //    // END09
             //});
 
-            services.Configure<MvcOptions>(options =>
-            {
-                options.Filters.Add(new CorsAuthorizationFilterFactory("AllowSpecificOrigin"));
-            });
+            //services.Configure<MvcOptions>(options =>
+            //{
+            //    options.Filters.Add(new CorsAuthorizationFilterFactory("AllowSpecificOrigin"));
+            //});
 
             var jwtSection = Configuration.GetSection("jwt");
             var jwtOptions = new JwtOptions();
