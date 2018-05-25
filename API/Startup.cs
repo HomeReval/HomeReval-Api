@@ -59,6 +59,90 @@ namespace API
             services.AddTransient<ITokenManager, TokenManager>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            var url = "http://homereval.ga";
+
+            services.AddCors(options =>
+            {
+                // BEGIN01
+                options.AddPolicy("AllowSpecificOrigins",
+                builder =>
+                {
+                    builder.WithOrigins(url);
+                });
+                // END01
+
+                // BEGIN02
+                options.AddPolicy("AllowAllOrigins",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin();
+                    });
+                // END02
+
+                // BEGIN03
+                options.AddPolicy("AllowSpecificMethods",
+                    builder =>
+                    {
+                        builder.WithOrigins(url)
+                               .WithMethods("GET", "POST", "HEAD");
+                    });
+                // END03
+
+                // BEGIN04
+                options.AddPolicy("AllowAllMethods",
+                    builder =>
+                    {
+                        builder.WithOrigins(url)
+                               .AllowAnyMethod();
+                    });
+                // END04
+
+                // BEGIN05
+                options.AddPolicy("AllowHeaders",
+                    builder =>
+                    {
+                        builder.WithOrigins(url)
+                               .WithHeaders("accept", "content-type", "origin", "x-custom-header");
+                    });
+                // END05
+
+                // BEGIN06
+                options.AddPolicy("AllowAllHeaders",
+                    builder =>
+                    {
+                        builder.WithOrigins(url)
+                               .AllowAnyHeader();
+                    });
+                // END06
+
+                // BEGIN07
+                options.AddPolicy("ExposeResponseHeaders",
+                    builder =>
+                    {
+                        builder.WithOrigins(url)
+                               .WithExposedHeaders("x-custom-header");
+                    });
+                // END07
+
+                // BEGIN08
+                options.AddPolicy("AllowCredentials",
+                    builder =>
+                    {
+                        builder.WithOrigins(url)
+                               .AllowCredentials();
+                    });
+                // END08
+
+                // BEGIN09
+                options.AddPolicy("SetPreflightExpiration",
+                    builder =>
+                    {
+                        builder.WithOrigins(url)
+                               .SetPreflightMaxAge(TimeSpan.FromSeconds(2520));
+                    });
+                // END09
+            });
+
             var jwtSection = Configuration.GetSection("jwt");
             var jwtOptions = new JwtOptions();
             jwtSection.Bind(jwtOptions);
@@ -96,6 +180,9 @@ namespace API
             app.UseMiddleware<ErrorHandlerMiddleware>();
             app.UseAuthentication();
             app.UseMiddleware<TokenManagerMiddleware>();
+
+            app.UseCors("AllowSpecificOrigins");
+
             app.UseMvc();
         }
     }
