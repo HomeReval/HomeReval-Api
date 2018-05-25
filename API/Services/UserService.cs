@@ -29,9 +29,9 @@ namespace API.Services
             _passwordHasher = passwordHasher;
         }
 
-        public User Get(string token)
+        public User Get(long ID)
         {
-            return GetUser(_jwtHandler.GetUserID(token));
+            return GetUser(ID);
         }
 
         public JsonWebToken SignIn(string username, string password)

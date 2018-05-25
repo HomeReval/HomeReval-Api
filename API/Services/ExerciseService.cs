@@ -15,39 +15,32 @@ namespace API.Services
 
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly IJwtHandler _jwtHandler;
-        private readonly IUserService _userService;
+        private readonly IUserGroupService _roleService;
 
-        public ExerciseService(IServiceScopeFactory scopeFactory, IJwtHandler jwtHandler, IUserService userService)
+        public ExerciseService(IServiceScopeFactory scopeFactory, IJwtHandler jwtHandler, IUserGroupService roleService)
         {
             _scopeFactory = scopeFactory;
             _jwtHandler = jwtHandler;
-            _userService = userService;
+            _roleService = roleService;
         }
 
 
-        public object Get(string token)
-            => GetExercise(_jwtHandler.GetUserID(token));
+        public object Get(long User_ID)
+            => GetExercise(User_ID);
 
 
-        public void Add(string token, object o)
-        {
-            var user = _userService.GetUser(_jwtHandler.GetUserID(token));
-
-            if (user.UserGroup.ID != Models.Type.Manager && user.UserGroup.ID != Models.Type.Administrator)
-            {
-                throw new Exception("UserGroup: " + user.UserGroup.Type + " , does not have the rights to add a new exercise");
-            }
-
+        public void Add(object o)
+        {        
             var exercise = (Exercise)o;
             AddExercise(exercise);         
         }
 
-        public void Delete(string token, object o)
+        public void Delete(object o)
         {
             throw new NotImplementedException();
         }
       
-        public void Update(string token, object o)
+        public void Update(object o)
         {
             throw new NotImplementedException();
         }

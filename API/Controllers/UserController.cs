@@ -25,13 +25,13 @@ namespace API.Controllers
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUserService _userService;
-        private readonly ITokenManager _tokenManager;
+        private readonly IJwtHandler _jwtHandler;
 
-        public UserController(IHttpContextAccessor httpContextAccessor, IUserService userService, ITokenManager tokenManager)
+        public UserController(IHttpContextAccessor httpContextAccessor, IUserService userService, IJwtHandler jwtHandler)
         {
             _httpContextAccessor = httpContextAccessor;
             _userService = userService;
-            _tokenManager = tokenManager;
+            _jwtHandler = jwtHandler;
         }
 
         [HttpGet]
@@ -42,8 +42,9 @@ namespace API.Controllers
                 .Single()
                 .Split(" ")
                 .Last();
+            var ID = _jwtHandler.GetUserID(token);
 
-            return Ok(_userService.Get(token));
+            return Ok(_userService.Get(ID));
 
         }
              
@@ -66,127 +67,5 @@ namespace API.Controllers
         public IActionResult RefreshAccessToken2([FromBody] RefreshToken refreshToken)
             => Ok(_userService.RefreshAccessToken(refreshToken.Token));
 
-
-        //[HttpGet("{id}", Name = "GetUser")]
-        //public IActionResult GetById(long id)
-        //{
-        //    var user = _context.Users
-        //        .Include(u => u.UserGroup)
-        //        .SingleOrDefault(x => x.ID == id);
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return Ok(user);
-        //}
-
-        //[HttpPost]
-        //public IActionResult Create([FromBody] User user)
-        //{
-        //    if (user == null)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    user.Password = _encryptionManager.Encrypt(user.Password);
-
-        //    _context.Users.Add(user);
-        //    _context.SaveChanges();
-
-        //    return CreatedAtRoute("GetUser", new { id = user.ID }, user);
-        //}
-
-        //[HttpPut("{id}")]
-        //public IActionResult Update(long id, [FromBody] User user)
-        //{
-        //    if (user == null || user.ID != id)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    var todo = _context.Users.Find(id);
-        //    if (todo == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    todo.FirstName = user.FirstName;
-
-        //    _context.Users.Update(todo);
-        //    _context.SaveChanges();
-        //    return NoContent();
-        //}
-
-        //[HttpDelete("{id}")]
-        //public IActionResult Delete(long id)
-        //{
-        //    var user = _context.Users.Find(id);
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _context.Users.Remove(user);
-        //    _context.SaveChanges();
-        //    return NoContent();
-        //}
-
-
     }
 }
-
-//namespace TokenManager.Api.Controllers
-//{
-//    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-//    public class AccountController : Controller
-//    {
-//        private readonly IAccountService _accountService;
-//        private readonly ITokenManager _tokenManager;
-
-//        public AccountController(IAccountService accountService,
-//                ITokenManager tokenManager)
-//        {
-//            _accountService = accountService;
-//            _tokenManager = tokenManager;
-//        }
-
-//        [HttpGet("account")]
-//        public IActionResult Get([FromBody] SignUp request)
-//            => Content($"Hello {User.Identity.Name}");
-
-//        [HttpPost("sign-up")]
-//        [AllowAnonymous]
-//        public IActionResult SignUp([FromBody] SignUp request)
-//        {
-//            _accountService.SignUp(request.Username, request.Password);
-
-//            return NoContent();
-//        }
-
-//        [HttpPost("sign-in")]
-//        [AllowAnonymous]
-//        public IActionResult SignIn([FromBody] SignIn request)
-//            => Ok(_accountService.SignIn(request.Username, request.Password));
-
-//        [HttpPost("tokens/{token}/refresh")]
-//        [AllowAnonymous]
-//        public IActionResult RefreshAccessToken(string token)
-//            => Ok(_accountService.RefreshAccessToken(token));
-
-//        [HttpPost("tokens/{token}/revoke")]
-//        public IActionResult RevokeRefreshToken(string token)
-//        {
-//            _accountService.RevokeRefreshToken(token);
-
-//            return NoContent();
-//        }
-
-//        [HttpPost("tokens/cancel")]
-//        public async Task<IActionResult> CancelAccessToken()
-//        {
-//            await _tokenManager.DeactivateCurrentAsync();
-
-//            return NoContent();
-//        }
-//    }
-//}

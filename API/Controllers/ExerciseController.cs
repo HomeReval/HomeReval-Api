@@ -19,13 +19,15 @@ namespace API.Controllers
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IExerciseService _exerciseService;
-        private readonly ITokenManager _tokenManager;
+        private readonly IUserGroupService _roleService;
+        private readonly IJwtHandler _jwtHandler;
 
-        public ExerciseController(IHttpContextAccessor httpContextAccessor, IExerciseService exerciseService, ITokenManager tokenManager)
+        public ExerciseController(IHttpContextAccessor httpContextAccessor, IExerciseService exerciseService, IUserGroupService roleService, IJwtHandler jwtHandler)
         {
             _httpContextAccessor = httpContextAccessor;
             _exerciseService = exerciseService;
-            _tokenManager = tokenManager;
+            _roleService = roleService;
+            _jwtHandler = jwtHandler;
         }
 
         [HttpGet]
@@ -36,10 +38,11 @@ namespace API.Controllers
                 .Single()
                 .Split(" ")
                 .Last();
-            return Ok(_exerciseService.Get(token));
+
+            var ID = _jwtHandler.GetUserID(token);
+            return Ok(_exerciseService.Get(ID));
         }
 
-        [AllowAnonymous] // Only Manager can access this
         [HttpPost]
         public IActionResult Add([FromBody] ClientExercise clientExercise)
         {
@@ -48,9 +51,10 @@ namespace API.Controllers
                 .Single()
                 .Split(" ")
                 .Last();
+            _roleService.IsUserManager(token, "Add Exercise");
 
             byte[] Recording = _exerciseService.Compress(clientExercise.Recording);
-            _exerciseService.Add(token, new Exercise { Name = clientExercise.Name, Description = clientExercise.Description, Recording = Recording });
+            _exerciseService.Add(new Exercise { Name = clientExercise.Name, Description = clientExercise.Description, Recording = Recording });
             return NoContent();
         }
     }

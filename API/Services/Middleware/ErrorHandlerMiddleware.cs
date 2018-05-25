@@ -29,11 +29,19 @@ namespace API.Services.Middleware
 
         private static Task HandleErrorAsync(HttpContext context, Exception exception)
         {
+            
+
             var response = new { message = exception.Message };
             var payload = JsonConvert.SerializeObject(response);
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = 400;
-
+                
+            if (exception is UnauthorizedAccessException)
+            {
+                context.Response.StatusCode = 403;
+            } else
+            {
+                context.Response.StatusCode = 400;
+            }
             return context.Response.WriteAsync(payload);
         }
     }
