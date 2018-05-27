@@ -2,22 +2,22 @@
 {
     public class ExerciseResultService : IExerciseResultService
     {
-        public void Add(string token, object o)
+        public void Add(object o)
         {
             throw new System.NotImplementedException();
         }
 
-        public void Delete(string token, object o)
+        public void Delete(object o)
         {
             throw new System.NotImplementedException();
         }
 
-        public object Get(string token)
+        public object Get(long Id)
         {
             throw new System.NotImplementedException();
         }
 
-        public void Update(string token, object o)
+        public void Update(object o)
         {
             throw new System.NotImplementedException();
         }

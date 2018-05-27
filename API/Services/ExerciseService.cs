@@ -24,9 +24,13 @@ namespace API.Services
             _roleService = roleService;
         }
 
+        public object Get(long Id)
+        {
+            throw new NotImplementedException();
+        }
 
-        public object Get(long User_ID)
-            => GetExercise(User_ID);
+        public object GetByUserID(long User_ID)
+            => GetExerciseByUserID(User_ID);
 
 
         public void Add(object o)
@@ -65,7 +69,7 @@ namespace API.Services
             }
         }
 
-        private List<Exercise> GetExercise(long User_ID)
+        private List<Exercise> GetExerciseByUserID(long User_ID)
         {
             using (var scope = _scopeFactory.CreateScope())
             {
