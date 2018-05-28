@@ -28,6 +28,17 @@ namespace API.Models
         {
             modelBuilder.Entity<UserPhysio>()
                 .HasKey(c => new { c.User_ID, c.Physio_ID});
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasIndex(e => e.Email).IsUnique();
+            });
+
+            modelBuilder.Entity<RefreshToken>(entity =>
+            {
+                entity.HasIndex(e => e.Token).IsUnique();
+            });
+
         }
     }
 }

@@ -48,17 +48,28 @@ namespace API.Controllers
             return Ok(_userService.Get(ID));
 
         }
-             
+
 
         [HttpPost("login")]
         [AllowAnonymous]
         public IActionResult SignIn([FromBody] SignIn request)
-            => Ok(_userService.SignIn(request.Username, request.Password));
+        {
+            if (ModelState.IsValid){
+                return Ok(_userService.SignIn(request.Username, request.Password));
+            }
+            return BadRequest(ModelState);              
+        }
+
 
         [HttpPost("create")]
         [AllowAnonymous]
         public IActionResult SignUp([FromBody] SignUp signUp)
         {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
             User user = new User
             {
@@ -68,7 +79,6 @@ namespace API.Controllers
                 LastName = signUp.LastName,
                 Gender = signUp.Gender              
             };
-
 
             _userService.SignUp(user);
             return NoContent();

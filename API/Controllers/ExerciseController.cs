@@ -60,6 +60,12 @@ namespace API.Controllers
         [HttpPost]
         public IActionResult Add([FromBody] ClientExercise clientExercise)
         {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var token = _httpContextAccessor
                 .HttpContext.Request.Headers["authorization"]
                 .Single()
