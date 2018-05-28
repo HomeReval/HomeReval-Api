@@ -98,7 +98,7 @@ namespace API.Services
             refreshToken.Revoked = true;
         }
 
-        public User GetUser(string username)
+        private User GetUser(string username)
         {
             using (var scope = _scopeFactory.CreateScope())
             {
@@ -112,7 +112,7 @@ namespace API.Services
             }
         }
 
-        public User GetUser(long User_ID)
+        private User GetUser(long User_ID)
         {
             using (var scope = _scopeFactory.CreateScope())
             {
@@ -128,7 +128,7 @@ namespace API.Services
             }
         }
 
-        public RefreshToken GetOrAddRefreshToken(long User_ID)
+        private RefreshToken GetOrAddRefreshToken(long User_ID)
         {
             using (var scope = _scopeFactory.CreateScope())
             {
@@ -154,7 +154,7 @@ namespace API.Services
             }
         }
 
-        public RefreshToken GetRefreshToken(string token)
+        private RefreshToken GetRefreshToken(string token)
         {
             using (var scope = _scopeFactory.CreateScope())
             {

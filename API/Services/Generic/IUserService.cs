@@ -11,7 +11,5 @@ namespace API.Services
         User Get(long ID);
         JsonWebToken RefreshAccessToken(string token);
         void RevokeRefreshToken(string token);
-
-        User GetUser(long User_ID);
     }
 }

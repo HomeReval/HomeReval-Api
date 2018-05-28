@@ -40,7 +40,7 @@ namespace API.Services
         public void IsUserManager(string token, string method)
         {
 
-            var user = _userService.GetUser(_jwtHandler.GetUserID(token));
+            var user = _userService.Get(_jwtHandler.GetUserID(token));
 
             if (user.UserGroup.ID != Models.Type.Manager && user.UserGroup.ID != Models.Type.Administrator)
             {

@@ -7675,10 +7675,10 @@
       "path": "microsoft.netcore.platforms/2.0.0",
       "files": [
         "LICENSE.TXT",
-        "Microsoft.NETCore.Platforms.2.0.0.nupkg.sha512",
-        "Microsoft.NETCore.Platforms.nuspec",
         "THIRD-PARTY-NOTICES.TXT",
         "lib/netstandard1.0/_._",
+        "microsoft.netcore.platforms.2.0.0.nupkg.sha512",
+        "microsoft.netcore.platforms.nuspec",
         "runtime.json",
         "useSharedDesignerContext.txt",
         "version.txt"
@@ -13372,46 +13372,24 @@
     ]
   },
   "packageFolders": {
-<<<<<<< HEAD
     "C:\\Users\\nickw\\.nuget\\packages\\": {},
-=======
-    "C:\\Users\\Chung\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {},
->>>>>>> 40d2af0f3f785c45d2d2557ffba81bb942d42eb9
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
-    "restoreSettings": {
-      "hideWarningsAndErrors": true
-    },
     "restore": {
-<<<<<<< HEAD
       "projectUniqueName": "D:\\School\\HomeReval\\HomeReval-Api\\API\\API.csproj",
       "projectName": "API",
       "projectPath": "D:\\School\\HomeReval\\HomeReval-Api\\API\\API.csproj",
       "packagesPath": "C:\\Users\\nickw\\.nuget\\packages\\",
       "outputPath": "D:\\School\\HomeReval\\HomeReval-Api\\API\\obj\\",
-=======
-      "projectUniqueName": "C:\\Users\\Chung\\Documents\\GitHub\\HomeReval-Api\\API\\API.csproj",
-      "projectName": "API",
-      "projectPath": "C:\\Users\\Chung\\Documents\\GitHub\\HomeReval-Api\\API\\API.csproj",
-      "packagesPath": "C:\\Users\\Chung\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Chung\\Documents\\GitHub\\HomeReval-Api\\API\\obj\\",
->>>>>>> 40d2af0f3f785c45d2d2557ffba81bb942d42eb9
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-<<<<<<< HEAD
         "C:\\Users\\nickw\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-=======
-        "C:\\Users\\Chung\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
->>>>>>> 40d2af0f3f785c45d2d2557ffba81bb942d42eb9
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
@@ -13459,5 +13437,13 @@
         "warn": true
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file D:\\School\\HomeReval\\HomeReval-Api\\API\\obj\\API.csproj.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }
