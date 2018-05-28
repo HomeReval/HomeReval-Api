@@ -26,6 +26,7 @@ namespace API.Controllers
                 //.Include(p => p.UserGroup)
                 .ToList();
         }
+        [HttpGet("")]
 
         [HttpGet("{id}", Name = "GetUserUserExercise")]
         public IActionResult GetById(long id)
