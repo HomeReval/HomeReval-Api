@@ -90,5 +90,32 @@ namespace API.Services
                 return exercises;
             }
         }
+        public object GetByThisWeek(long id)
+         => GetExercisesByThisWeek(id);
+
+        private List<Exercise> GetExercisesByThisWeek(long id)
+        {
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                int weekNum = DateTime.Now.DayOfYear / 7;
+                var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
+                var exercises = (from ue in dbContext.UserExercises
+                                 join e in dbContext.Exercises on ue.Exercise_ID equals e.ID
+                                 join ep in dbContext.ExercisePlannings on ue.ID equals ep.UserExercise_ID
+                                 where ue.User_ID == id && weekNum == (ep.Date.DayOfYear / 7)
+                                 select new Exercise
+                                 {
+                                     ID = e.ID,
+                                     Name = e.Name,
+                                     Description = e.Description
+                                 }).ToList();
+                if (!exercises.Any())
+                {
+                    throw new Exception("No exercises were found for user: " + id);
+                }
+                return exercises;
+            }
+        }
+        
     }
 }

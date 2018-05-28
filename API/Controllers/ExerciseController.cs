@@ -30,6 +30,19 @@ namespace API.Controllers
             _roleService = roleService;
             _jwtHandler = jwtHandler;
         }
+        [Route("week")]
+        [HttpGet]
+        public IActionResult GetByThisWeek()
+        {
+            var token = _httpContextAccessor
+                .HttpContext.Request.Headers["authorization"]
+                .Single()
+                .Split(" ")
+                .Last();
+
+            var ID = _jwtHandler.GetUserID(token);
+            return Ok(_exerciseService.GetByThisWeek(ID));
+        }
 
         [HttpGet]
         public IActionResult GetById()

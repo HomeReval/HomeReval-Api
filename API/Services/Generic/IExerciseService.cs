@@ -9,6 +9,7 @@ namespace API.Services
     public interface IExerciseService : IService
     {
         string Compress(byte[] data);
+        object GetByThisWeek(long ID);
         byte[] Compress(string data);
         object GetByUserID(long ID);
     }
