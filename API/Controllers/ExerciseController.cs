@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Models;
+using API.Models.Form;
 using API.Services;
 using API.Services.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -31,7 +32,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetById(long id)
+        public IActionResult GetById()
         {
             var token = _httpContextAccessor
                 .HttpContext.Request.Headers["authorization"]
@@ -40,7 +41,7 @@ namespace API.Controllers
                 .Last();
 
             var ID = _jwtHandler.GetUserID(token);
-            return Ok(_exerciseService.Get(ID));
+            return Ok(_exerciseService.GetByUserID(ID));
         }
 
         [HttpPost]
@@ -51,6 +52,7 @@ namespace API.Controllers
                 .Single()
                 .Split(" ")
                 .Last();
+
             _roleService.IsUserManager(token, "Add Exercise");
 
             byte[] Recording = _exerciseService.Compress(clientExercise.Recording);

@@ -8,13 +8,13 @@ namespace API.Services
     public interface IService
     {
 
-        object Get(string token);
+        object Get(long ID);
 
-        void Add(string token, object o);
+        void Add(object o);
 
-        void Update(string token, object o);
+        void Update(object o);
 
-        void Delete(string token, object o);
+        void Delete(object o);
 
     }
 }

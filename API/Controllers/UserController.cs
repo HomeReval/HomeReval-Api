@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Models;
+using API.Models.Form;
 using API.Models.Tokens;
 using API.Services;
 using API.Services.Security;
@@ -56,12 +57,24 @@ namespace API.Controllers
 
         [HttpPost("create")]
         [AllowAnonymous]
-        public IActionResult SignUp([FromBody] User user)
+        public IActionResult SignUp([FromBody] SignUp signUp)
         {
+
+            User user = new User
+            {
+                Email = signUp.Email,
+                Password = signUp.Password,
+                FirstName = signUp.FirstName,
+                LastName = signUp.LastName,
+                Gender = signUp.Gender              
+            };
+
+
             _userService.SignUp(user);
             return NoContent();
         }
 
+        // Make a token controller class
         [HttpPost("token/refresh")]
         [AllowAnonymous]
         public IActionResult RefreshAccessToken2([FromBody] RefreshToken refreshToken)

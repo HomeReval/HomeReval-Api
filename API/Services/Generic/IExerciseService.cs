@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace API.Services
 {
-    public interface IExerciseService
+    public interface IExerciseService : IService
     {
-        object Get(long User_ID);
-        void Add(object o);
-        void Update(object o);
-        void Delete(object o);
         string Compress(byte[] data);
         byte[] Compress(string data);
+        object GetByUserID(long ID);
     }
 }

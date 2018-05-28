@@ -51,7 +51,6 @@ namespace API.Services
 
         public void SignUp(User user)
         {
-
             if (string.IsNullOrWhiteSpace(user.Email))
             {
                 throw new Exception("Email can not be empty.");
