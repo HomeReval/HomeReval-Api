@@ -12,7 +12,10 @@ namespace API.Models
         public long ID { get; set; }
 
         [Required]
-        public DateTime Date { get; set; }
+        public DateTime StartDate { get; set; }
+
+        [Required]
+        public DateTime EndDate { get; set; }
 
         [Required]
         public string Description { get; set; }
@@ -20,9 +23,7 @@ namespace API.Models
         [Required]
         public int Amount { get; set; }
 
-        //Result must become a file / blob
-        [Required]
-        public bool IsComplete { get; set; }
+        public List<ExerciseSession> ExerciseSessions { get; set; }
 
         public long UserExercise_ID { get; set; }
         [ForeignKey("UserExercise_ID")]

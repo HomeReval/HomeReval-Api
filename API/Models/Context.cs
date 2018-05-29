@@ -22,6 +22,7 @@ namespace API.Models
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<ExercisePlanning> ExercisePlannings { get; set; }
         public DbSet<ExerciseResult> ExerciseResults { get; set; }
+        public DbSet<ExerciseSession> ExerciseSessions { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

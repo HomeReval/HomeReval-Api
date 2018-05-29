@@ -254,14 +254,26 @@ namespace API
             if (!context.ExercisePlannings.Any())
             {
                 UserExercise userExercise = context.UserExercises.First();
-                context.Add(new ExercisePlanning { Date = DateTime.Now, Description = "Mevrouw bakkertjes, houd rekening met het feit dat u deze oefening GOED moet doen!", Amount = 100, IsComplete = false, UserExercise = userExercise});
+                context.Add(new ExercisePlanning { StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(5), Description = "Mevrouw bakkertjes, houd rekening met het feit dat u deze oefening GOED moet doen!", Amount = 100, UserExercise = userExercise});
+                context.SaveChanges();
+            }
+            
+            if (!context.ExerciseSessions.Any())
+            {
+                ExercisePlanning exercisePlanning = context.ExercisePlannings.First();
+                context.Add(new ExerciseSession { Date = DateTime.Now, IsComplete = true, ExercisePlanning = exercisePlanning });
+                context.Add(new ExerciseSession { Date = DateTime.Now.AddDays(1), IsComplete = true, ExercisePlanning = exercisePlanning });
+                context.Add(new ExerciseSession { Date = DateTime.Now.AddDays(2), IsComplete = true, ExercisePlanning = exercisePlanning });
+                context.Add(new ExerciseSession { Date = DateTime.Now.AddDays(3), IsComplete = true, ExercisePlanning = exercisePlanning });
+                context.Add(new ExerciseSession { Date = DateTime.Now.AddDays(4), IsComplete = false, ExercisePlanning = exercisePlanning });
+                context.Add(new ExerciseSession { Date = DateTime.Now.AddDays(5), IsComplete = false, ExercisePlanning = exercisePlanning });
                 context.SaveChanges();
             }
 
             if (!context.ExerciseResults.Any())
             {
-                UserExercise userExercise = context.UserExercises.First();
-                context.Add(new ExerciseResult { Date = DateTime.Now, Duration = 10000, Score = 80, Result = "Geweldige opname met resultaten!", UserExercise = userExercise });
+                ExerciseSession exerciseSession = context.ExerciseSessions.First();
+                context.Add(new ExerciseResult {Duration = 10000, Score = 80, Result = new byte[8], ExerciseSession = exerciseSession });
                 context.SaveChanges();
             }
         }

@@ -9,25 +9,16 @@ namespace API.Models
 {
     public class ExerciseResult
     {
-
         public long ID { get; set; }
-
-        [Required]
-        public DateTime Date { get; set; }
-
         [Required]
         public int Duration { get; set; }
-
         [Required]
         public int Score { get; set; }
-
         //Result must become a file / blob
         [Required]
-        public string Result { get; set; }
-
-        public long UserExercise_ID { get; set; }
-        [ForeignKey("UserExercise_ID")]
-        public UserExercise UserExercise { get; set; }
-
+        public byte[] Result { get; set; }
+        public long ExerciseSession_ID { get; set; }
+        [ForeignKey("ExerciseSession_ID")]
+        public ExerciseSession ExerciseSession { get; set; }
     }
 }

@@ -30,9 +30,10 @@ namespace API.Controllers
             _roleService = roleService;
             _jwtHandler = jwtHandler;
         }
+
         [Route("week")]
-        [HttpGet]
-        public IActionResult GetByThisWeek()
+        [HttpGet("{id}")]
+        public IActionResult GetByWeek(int weeknumber)
         {
             var token = _httpContextAccessor
                 .HttpContext.Request.Headers["authorization"]
@@ -41,7 +42,7 @@ namespace API.Controllers
                 .Last();
 
             var ID = _jwtHandler.GetUserID(token);
-            return Ok(_exerciseService.GetByThisWeek(ID));
+            return Ok(_exerciseService.GetByWeek(ID, weeknumber));
         }
 
         [HttpGet]

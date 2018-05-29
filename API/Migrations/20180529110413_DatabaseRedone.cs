@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace API.Migrations
 {
-    public partial class TokenUpdate : Migration
+    public partial class DatabaseRedone : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,7 +17,7 @@ namespace API.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: false),
-                    Recording = table.Column<string>(nullable: false)
+                    Recording = table.Column<byte[]>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -65,14 +65,15 @@ namespace API.Migrations
                 name: "RefreshTokens",
                 columns: table => new
                 {
-                    Token_ID = table.Column<long>(nullable: false),
-                    User_ID = table.Column<long>(nullable: false),
+                    ID = table.Column<long>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Revoked = table.Column<bool>(nullable: false),
-                    Token = table.Column<string>(nullable: true)
+                    Token = table.Column<string>(nullable: true),
+                    User_ID = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RefreshTokens", x => new { x.Token_ID, x.User_ID });
+                    table.PrimaryKey("PK_RefreshTokens", x => x.ID);
                     table.ForeignKey(
                         name: "FK_RefreshTokens_Users_User_ID",
                         column: x => x.User_ID,
@@ -138,9 +139,9 @@ namespace API.Migrations
                     ID = table.Column<long>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Amount = table.Column<int>(nullable: false),
-                    Date = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(nullable: false),
-                    IsComplete = table.Column<bool>(nullable: false),
+                    EndDate = table.Column<DateTime>(nullable: false),
+                    StartDate = table.Column<DateTime>(nullable: false),
                     UserExercise_ID = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
@@ -155,24 +156,44 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ExerciseResults",
+                name: "ExerciseSessions",
                 columns: table => new
                 {
                     ID = table.Column<long>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Date = table.Column<DateTime>(nullable: false),
+                    ExercisePlanning_ID = table.Column<long>(nullable: false),
+                    IsComplete = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExerciseSessions", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_ExerciseSessions_ExercisePlannings_ExercisePlanning_ID",
+                        column: x => x.ExercisePlanning_ID,
+                        principalTable: "ExercisePlannings",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ExerciseResults",
+                columns: table => new
+                {
+                    ID = table.Column<long>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Duration = table.Column<int>(nullable: false),
-                    Result = table.Column<string>(nullable: false),
-                    Score = table.Column<int>(nullable: false),
-                    UserExercise_ID = table.Column<long>(nullable: false)
+                    ExerciseSession_ID = table.Column<long>(nullable: false),
+                    Result = table.Column<byte[]>(nullable: false),
+                    Score = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ExerciseResults", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_ExerciseResults_UserExercises_UserExercise_ID",
-                        column: x => x.UserExercise_ID,
-                        principalTable: "UserExercises",
+                        name: "FK_ExerciseResults_ExerciseSessions_ExerciseSession_ID",
+                        column: x => x.ExerciseSession_ID,
+                        principalTable: "ExerciseSessions",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -183,9 +204,20 @@ namespace API.Migrations
                 column: "UserExercise_ID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExerciseResults_UserExercise_ID",
+                name: "IX_ExerciseResults_ExerciseSession_ID",
                 table: "ExerciseResults",
-                column: "UserExercise_ID");
+                column: "ExerciseSession_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExerciseSessions_ExercisePlanning_ID",
+                table: "ExerciseSessions",
+                column: "ExercisePlanning_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RefreshTokens_Token",
+                table: "RefreshTokens",
+                column: "Token",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_RefreshTokens_User_ID",
@@ -208,6 +240,12 @@ namespace API.Migrations
                 column: "Physio_ID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Users_Email",
+                table: "Users",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_UserGroup_ID",
                 table: "Users",
                 column: "UserGroup_ID");
@@ -216,9 +254,6 @@ namespace API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ExercisePlannings");
-
-            migrationBuilder.DropTable(
                 name: "ExerciseResults");
 
             migrationBuilder.DropTable(
@@ -226,6 +261,12 @@ namespace API.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserPhysios");
+
+            migrationBuilder.DropTable(
+                name: "ExerciseSessions");
+
+            migrationBuilder.DropTable(
+                name: "ExercisePlannings");
 
             migrationBuilder.DropTable(
                 name: "UserExercises");

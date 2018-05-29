@@ -11,8 +11,8 @@ using System;
 namespace API.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20180528105446_Unique_Constraints")]
-    partial class Unique_Constraints
+    [Migration("20180529114906_AddList")]
+    partial class AddList
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,12 +47,12 @@ namespace API.Migrations
 
                     b.Property<int>("Amount");
 
-                    b.Property<DateTime>("Date");
-
                     b.Property<string>("Description")
                         .IsRequired();
 
-                    b.Property<bool>("IsComplete");
+                    b.Property<DateTime>("EndDate");
+
+                    b.Property<DateTime>("StartDate");
 
                     b.Property<long>("UserExercise_ID");
 
@@ -68,22 +68,38 @@ namespace API.Migrations
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("Date");
-
                     b.Property<int>("Duration");
 
-                    b.Property<string>("Result")
+                    b.Property<long>("ExerciseSession_ID");
+
+                    b.Property<byte[]>("Result")
                         .IsRequired();
 
                     b.Property<int>("Score");
 
-                    b.Property<long>("UserExercise_ID");
+                    b.HasKey("ID");
+
+                    b.HasIndex("ExerciseSession_ID");
+
+                    b.ToTable("ExerciseResults");
+                });
+
+            modelBuilder.Entity("API.Models.ExerciseSession", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<long>("ExercisePlanning_ID");
+
+                    b.Property<bool>("IsComplete");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("UserExercise_ID");
+                    b.HasIndex("ExercisePlanning_ID");
 
-                    b.ToTable("ExerciseResults");
+                    b.ToTable("ExerciseSessions");
                 });
 
             modelBuilder.Entity("API.Models.Tokens.RefreshToken", b =>
@@ -194,9 +210,17 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Models.ExerciseResult", b =>
                 {
-                    b.HasOne("API.Models.UserExercise", "UserExercise")
+                    b.HasOne("API.Models.ExerciseSession", "ExerciseSession")
                         .WithMany()
-                        .HasForeignKey("UserExercise_ID")
+                        .HasForeignKey("ExerciseSession_ID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("API.Models.ExerciseSession", b =>
+                {
+                    b.HasOne("API.Models.ExercisePlanning", "ExercisePlanning")
+                        .WithMany("ExerciseSessions")
+                        .HasForeignKey("ExercisePlanning_ID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
