@@ -31,20 +31,6 @@ namespace API.Controllers
             _jwtHandler = jwtHandler;
         }
 
-        [Route("week")]
-        [HttpGet("{id}")]
-        public IActionResult GetByWeek(int weeknumber)
-        {
-            var token = _httpContextAccessor
-                .HttpContext.Request.Headers["authorization"]
-                .Single()
-                .Split(" ")
-                .Last();
-
-            var ID = _jwtHandler.GetUserID(token);
-            return Ok(_exerciseService.GetByWeek(ID, weeknumber));
-        }
-
         [HttpGet]
         public IActionResult GetById()
         {

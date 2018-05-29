@@ -11,6 +11,7 @@ namespace API.Models
         public long ID { get; set; }
         public DateTime Date { get; set; }
         public bool IsComplete { get; set; }
+        public ExerciseResult ExerciseResult { get; set; }
         public long ExercisePlanning_ID { get; set; }
         [ForeignKey("ExercisePlanning_ID")]
         public ExercisePlanning ExercisePlanning { get; set; }

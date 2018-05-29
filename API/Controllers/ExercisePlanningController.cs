@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Models;
+using API.Services;
+using API.Services.Security;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,81 +14,48 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class ExercisePlanningController : ControllerBase
     {
-        private readonly Context _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IExercisePlanningService _exercisePlanningService;
+        private readonly IUserGroupService _roleService;
+        private readonly IJwtHandler _jwtHandler;
 
-        public ExercisePlanningController(Context context)
+        public ExercisePlanningController(IHttpContextAccessor httpContextAccessor, IExercisePlanningService exercisePlanningService, IUserGroupService roleService, IJwtHandler jwtHandler)
         {
-            _context = context;
+            _httpContextAccessor = httpContextAccessor;
+            _exercisePlanningService = exercisePlanningService;
+            _roleService = roleService;
+            _jwtHandler = jwtHandler;
         }
 
-        [HttpGet]
-        public List<ExercisePlanning> GetAll()
+        [HttpGet("week")]
+        public IActionResult GetByThisWeek()
         {
-            return _context.ExercisePlannings
-                //.Include(p => p.UserGroup)
-                .ToList();
+            var token = _httpContextAccessor
+                .HttpContext.Request.Headers["authorization"]
+                .Single()
+                .Split(" ")
+                .Last();
+
+            var ID = _jwtHandler.GetUserID(token);
+
+            int weekNum = Helper.GetIso8601WeekOfYear(DateTime.Now);
+            return Ok(_exercisePlanningService.GetByWeek(ID, weekNum));
         }
 
-        [HttpGet("{id}", Name = "GetExercisePlanning")]
-        public IActionResult GetById(long id)
+        [HttpGet("week/{id}")]
+        public IActionResult GetByWeek(int id)
         {
-            var exercisePlanning = _context.ExercisePlannings.Find(id);
-            if (exercisePlanning == null)
-            {
-                return NotFound();
-            }
-            return Ok(exercisePlanning);
+            var token = _httpContextAccessor
+                .HttpContext.Request.Headers["authorization"]
+                .Single()
+                .Split(" ")
+                .Last();
+
+            var ID = _jwtHandler.GetUserID(token);
+            return Ok(_exercisePlanningService.GetByWeek(ID, id));
         }
 
-        [HttpPost]
-        public IActionResult Create([FromBody] ExercisePlanning exercisePlanning)
-        {
-            if (exercisePlanning == null)
-            {
-                return BadRequest();
-            }
 
-
-            _context.ExercisePlannings.Add(exercisePlanning);
-            _context.SaveChanges();
-
-            return CreatedAtRoute("GetExercisePlanning", new { id = exercisePlanning.ID }, exercisePlanning);
-        }
-
-        [HttpPut("{id}")]
-        public IActionResult Update(long id, [FromBody] ExercisePlanning exercisePlanning)
-        {
-            if (exercisePlanning == null || exercisePlanning.ID != id)
-            {
-                return BadRequest();
-            }
-
-            var todo = _context.ExercisePlannings.Find(id);
-            if (todo == null)
-            {
-                return NotFound();
-            }
-
-            // Update Logic
-
-            _context.ExercisePlannings.Update(todo);
-            _context.SaveChanges();
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public IActionResult Delete(long id)
-        {
-            var user = _context.ExercisePlannings.Find(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            _context.ExercisePlannings.Remove(user);
-            _context.SaveChanges();
-            return NoContent();
-        }
 
     }
 

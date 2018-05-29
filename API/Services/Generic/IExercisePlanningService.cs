@@ -7,5 +7,7 @@ namespace API.Services
 {
     public interface IExercisePlanningService : IService
     {
+
+        object GetByWeek(long ID, int weeknumber);
     }
 }
