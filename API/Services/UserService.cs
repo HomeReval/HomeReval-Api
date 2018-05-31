@@ -24,7 +24,6 @@ namespace API.Services
             IEncryptionManager encryptionManager, IPasswordHasher<User> passwordHasher)
         {
             _scopeFactory = scopeFactory;
-            _jwtHandler = jwtHandler;
             _encryptionManager = encryptionManager;
             _passwordHasher = passwordHasher;
         }

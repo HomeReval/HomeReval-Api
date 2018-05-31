@@ -13,7 +13,6 @@ namespace API.Services
         public UserGroupService(IUserService userService, IJwtHandler jwtHandler)
         {
             _userService = userService;
-            _jwtHandler = jwtHandler;
         }
 
 
@@ -37,22 +36,22 @@ namespace API.Services
             throw new System.NotImplementedException();
         }
 
-        public void IsUserManager(string token, string method)
+        public void IsUserManager(long user_ID)
         {
 
-            var user = _userService.Get(_jwtHandler.GetUserID(token));
+            var user = _userService.Get(user_ID);
 
             if (user.UserGroup.ID != Models.Type.Manager && user.UserGroup.ID != Models.Type.Administrator)
             {
-                throw new UnauthorizedAccessException("User: " + user.Email + ", Role: " + user.UserGroup.Type + " , does not have access to: " + method);
+                throw new UnauthorizedAccessException("User: " + user.Email + ", Role: " + user.UserGroup.Type + " , does not have access to this call");
             }
         }
 
-        public void IsUserManager(User user, string method)
+        public void IsUserManager(User user)
         {
             if (user.UserGroup.ID != Models.Type.Manager && user.UserGroup.ID != Models.Type.Administrator)
             {
-                throw new UnauthorizedAccessException("User: " + user.Email + ", Role: " + user.UserGroup.Type + " , does not have access to: " + method);
+                throw new UnauthorizedAccessException("User: " + user.Email + ", Role: " + user.UserGroup.Type + " , does not have access to this call");
             }
         }
 

@@ -12,28 +12,9 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class UserGroupController : ControllerBase
     {
-        private readonly Context _context;
 
-        public UserGroupController(Context context)
+        public UserGroupController()
         {
-            _context = context;
-        }
-
-        [HttpGet]
-        public List<UserGroup> GetAll()
-        {
-            return _context.UserGroups.ToList();
-        }
-
-        [HttpGet("{id}", Name = "GetUserGroup")]
-        public IActionResult GetById(long id)
-        {
-            var userGroup = _context.UserGroups.Find(id);
-            if (userGroup == null)
-            {
-                return NotFound();
-            }
-            return Ok(userGroup);
         }
 
     }

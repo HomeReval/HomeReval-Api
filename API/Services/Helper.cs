@@ -27,6 +27,18 @@ namespace API.Services
             return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
         }
 
+        public static List<DateTime> GetDateTimes(DateTime startDate, DateTime endDate)
+        {
+            var dates = new List<DateTime>();
+
+            for (var dt = startDate; dt <= endDate; dt = dt.AddDays(1))
+            {
+                dates.Add(dt);
+            }
+
+            return dates;
+        }
+
 
     }
 }

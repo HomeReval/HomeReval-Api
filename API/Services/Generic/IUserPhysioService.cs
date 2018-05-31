@@ -7,5 +7,8 @@ namespace API.Services
 {
     public interface IUserPhysioService : IService
     {
+
+        void IsMemberOfPhysio(long physio_ID, long user_ID);
+
     }
 }

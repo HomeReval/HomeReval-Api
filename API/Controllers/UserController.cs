@@ -35,21 +35,15 @@ namespace API.Controllers
             _jwtHandler = jwtHandler;
         }
 
+        // Returns current user
         [HttpGet]
         public IActionResult Get()
         {
-            var token = _httpContextAccessor
-                .HttpContext.Request.Headers["authorization"]
-                .Single()
-                .Split(" ")
-                .Last();
-            var ID = _jwtHandler.GetUserID(token);
-
-            return Ok(_userService.Get(ID));
-
+            var user_ID = _jwtHandler.GetUserID(_httpContextAccessor.HttpContext);
+            return Ok(_userService.Get(user_ID));
         }
 
-
+        // Login with email & password, returns access, refresh and access expiration details
         [HttpPost("login")]
         [AllowAnonymous]
         public IActionResult SignIn([FromBody] SignIn request)
@@ -60,7 +54,7 @@ namespace API.Controllers
             return BadRequest(ModelState);              
         }
 
-
+        // Create a new account
         [HttpPost("create")]
         [AllowAnonymous]
         public IActionResult SignUp([FromBody] SignUp signUp)
@@ -84,10 +78,10 @@ namespace API.Controllers
             return NoContent();
         }
 
-        // Make a token controller class
+        // Return a new access token with the supplied Refresh Token
         [HttpPost("token/refresh")]
         [AllowAnonymous]
-        public IActionResult RefreshAccessToken2([FromBody] RefreshToken refreshToken)
+        public IActionResult RefreshAccessToken([FromBody] RefreshToken refreshToken)
             => Ok(_userService.RefreshAccessToken(refreshToken.Token));
 
     }

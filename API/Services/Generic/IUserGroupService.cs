@@ -9,8 +9,8 @@ namespace API.Services
     public interface IUserGroupService : IService
     {
 
-        void IsUserManager(string token, string method);
-        void IsUserManager(User user, string method);
+        void IsUserManager(long user_ID);
+        void IsUserManager(User user);
 
     }
 }

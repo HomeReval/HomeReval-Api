@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Services
 {
@@ -18,9 +19,7 @@ namespace API.Services
         }
 
         public void Add(object o)
-        {
-            throw new System.NotImplementedException();
-        }
+            => AddExercisePlanning((ExercisePlanning)o);
 
         public void Delete(object o)
         {
@@ -96,25 +95,40 @@ namespace API.Services
                 //                         qes.IsComplete,
                 //                         ExerciseResult = new
                 //                         {
-
                 //                             es.ExerciseResult.ID
-
-
                 //                         }
                 //                     })
-
-
-
                 //                 }).ToList<dynamic>();
-
-
-
 
                 if (!exercisePlannings.Any())
                 {
                     throw new Exception("No exercises plannings were found for user: " + id + ", in week: " + weeknumber);
                 }
                 return exercisePlannings;
+            }
+        }
+
+        private void AddExercisePlanning(ExercisePlanning exercisePlanning)
+        {
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
+
+                dbContext.Attach(exercisePlanning);
+                dbContext.Entry(exercisePlanning).State = EntityState.Added;
+
+                // Add ExerciseSessions
+                foreach (var date in Helper.GetDateTimes(exercisePlanning.StartDate, exercisePlanning.EndDate))
+                {
+                    dbContext.ExerciseSessions.Add( new ExerciseSession()
+                    {
+                        Date = date,
+                        IsComplete = false,
+                        ExercisePlanning = exercisePlanning
+                    });
+                }
+
+                dbContext.SaveChanges();
             }
         }
     }

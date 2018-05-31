@@ -34,14 +34,8 @@ namespace API.Controllers
         [HttpGet]
         public IActionResult GetById()
         {
-            var token = _httpContextAccessor
-                .HttpContext.Request.Headers["authorization"]
-                .Single()
-                .Split(" ")
-                .Last();
-
-            var ID = _jwtHandler.GetUserID(token);
-            return Ok(_exerciseService.GetByUserID(ID));
+            var user_ID = _jwtHandler.GetUserID(_httpContextAccessor.HttpContext);
+            return Ok(_exerciseService.GetByUserID(user_ID));
         }
 
         [HttpPost]
@@ -53,13 +47,8 @@ namespace API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var token = _httpContextAccessor
-                .HttpContext.Request.Headers["authorization"]
-                .Single()
-                .Split(" ")
-                .Last();
-
-            _roleService.IsUserManager(token, "Add Exercise");
+            var user_ID = _jwtHandler.GetUserID(_httpContextAccessor.HttpContext);
+            _roleService.IsUserManager(user_ID);
 
             byte[] Recording = _exerciseService.Compress(clientExercise.Recording);
             _exerciseService.Add(new Exercise { Name = clientExercise.Name, Description = clientExercise.Description, Recording = Recording });

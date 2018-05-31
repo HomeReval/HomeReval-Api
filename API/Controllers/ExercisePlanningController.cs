@@ -17,44 +17,57 @@ namespace API.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IExercisePlanningService _exercisePlanningService;
         private readonly IUserGroupService _roleService;
+        private readonly IUserPhysioService _userPhysioService;
+        private readonly IUserExerciseService _userExerciseService;
         private readonly IJwtHandler _jwtHandler;
 
-        public ExercisePlanningController(IHttpContextAccessor httpContextAccessor, IExercisePlanningService exercisePlanningService, IUserGroupService roleService, IJwtHandler jwtHandler)
+        public ExercisePlanningController(IHttpContextAccessor httpContextAccessor, IExercisePlanningService exercisePlanningService, IUserGroupService roleService, IUserPhysioService userPhysioService, IUserExerciseService userExerciseService, IJwtHandler jwtHandler)
         {
             _httpContextAccessor = httpContextAccessor;
             _exercisePlanningService = exercisePlanningService;
             _roleService = roleService;
+            _userPhysioService = userPhysioService;
+            _userExerciseService = userExerciseService;
             _jwtHandler = jwtHandler;
         }
 
+        // Return all exerciseplannings of this week for token based User
         [HttpGet("week")]
         public IActionResult GetByThisWeek()
         {
-            var token = _httpContextAccessor
-                .HttpContext.Request.Headers["authorization"]
-                .Single()
-                .Split(" ")
-                .Last();
-
-            var ID = _jwtHandler.GetUserID(token);
-
+            var user_ID = _jwtHandler.GetUserID(_httpContextAccessor.HttpContext);
             int weekNum = Helper.GetIso8601WeekOfYear(DateTime.Now);
-            return Ok(_exercisePlanningService.GetByWeek(ID, weekNum));
+            return Ok(_exercisePlanningService.GetByWeek(user_ID, weekNum));
         }
 
+        // Return all exerciseplannings of supplied weeknumber for token based User
         [HttpGet("week/{id}")]
         public IActionResult GetByWeek(int id)
         {
-            var token = _httpContextAccessor
-                .HttpContext.Request.Headers["authorization"]
-                .Single()
-                .Split(" ")
-                .Last();
-
-            var ID = _jwtHandler.GetUserID(token);
-            return Ok(_exercisePlanningService.GetByWeek(ID, id));
+            var user_ID = _jwtHandler.GetUserID(_httpContextAccessor.HttpContext);
+            return Ok(_exercisePlanningService.GetByWeek(user_ID, id));
         }
 
+        // Create a new ExercisePlanning
+        [HttpPost]
+        public IActionResult Add([FromBody] ExercisePlanning exercisePlanning)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user_ID = _jwtHandler.GetUserID(_httpContextAccessor.HttpContext);
+            _roleService.IsUserManager(user_ID);
+            _userPhysioService.IsMemberOfPhysio(user_ID, exercisePlanning.UserExercise.User_ID);
+
+            var userExercise = _userExerciseService.Get(exercisePlanning.UserExercise.User_ID, exercisePlanning.UserExercise.Exercise_ID);
+            exercisePlanning.UserExercise = userExercise;
+
+            _exercisePlanningService.Add(exercisePlanning);
+            return NoContent();
+        }
 
 
     }

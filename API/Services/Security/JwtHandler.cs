@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using API.Models.Tokens;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -50,16 +51,32 @@ namespace API.Services.Security
             };
         }
 
-        public long GetUserID(string token)
+        public long GetUserID(HttpContext httpContext)
         {
             try
             {
-                var jwtToken = new JwtSecurityToken(token);
+                var jwtToken = new JwtSecurityToken(GetToken(httpContext));
                 return Convert.ToInt64(jwtToken.Subject);
-            } catch (Exception e)
+            } catch
             {
                 throw new Exception("Invalid token supplied");
             }            
+        }
+
+        private string GetToken(HttpContext httpContext)
+        {
+
+            try
+            {
+                return httpContext.Request.Headers["authorization"]
+                .Single()
+                .Split(" ")
+                .Last();
+            } catch
+            {
+                throw new Exception("Invalid token supplied");
+            }
+
         }
 
     }

@@ -17,11 +17,9 @@ namespace API.Models
         public long Exercise_ID { get; set; }
 
         [ForeignKey("User_ID")]
-        [Required]
         public User User { get; set; }
 
         [ForeignKey("Exercise_ID")]
-        [Required]
         public Exercise Exercise { get; set; }
 
     }
