@@ -24,6 +24,7 @@ namespace API.Services
             IEncryptionManager encryptionManager, IPasswordHasher<User> passwordHasher)
         {
             _scopeFactory = scopeFactory;
+            _jwtHandler = jwtHandler;
             _encryptionManager = encryptionManager;
             _passwordHasher = passwordHasher;
         }
@@ -77,6 +78,7 @@ namespace API.Services
             using (var scope = _scopeFactory.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
+
                 dbContext.Users.Add(user);
                 dbContext.SaveChanges();
             }
@@ -102,7 +104,7 @@ namespace API.Services
             using (var scope = _scopeFactory.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
-                var user = dbContext.Users.SingleOrDefault(x => string.Equals(x.Email, username, StringComparison.InvariantCultureIgnoreCase));
+                var user = dbContext.Users.First(x => x.Email == username);
                 if (user == null)
                 {
                     throw new Exception("User was not found.");

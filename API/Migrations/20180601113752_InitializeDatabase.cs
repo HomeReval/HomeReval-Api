@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace API.Migrations
 {
-    public partial class DatabaseRedone : Migration
+    public partial class InitializeDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,7 @@ namespace API.Migrations
                     ID = table.Column<long>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
                     Recording = table.Column<byte[]>(nullable: false)
                 },
                 constraints: table =>
@@ -43,10 +43,10 @@ namespace API.Migrations
                 {
                     ID = table.Column<long>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Email = table.Column<string>(nullable: false),
-                    FirstName = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(maxLength: 255, nullable: false),
+                    FirstName = table.Column<string>(maxLength: 100, nullable: false),
                     Gender = table.Column<char>(nullable: false),
-                    LastName = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(maxLength: 255, nullable: false),
                     Password = table.Column<string>(nullable: false),
                     UserGroup_ID = table.Column<int>(nullable: false)
                 },
@@ -206,7 +206,8 @@ namespace API.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_ExerciseResults_ExerciseSession_ID",
                 table: "ExerciseResults",
-                column: "ExerciseSession_ID");
+                column: "ExerciseSession_ID",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExerciseSessions_ExercisePlanning_ID",

@@ -29,7 +29,8 @@ namespace API.Migrations
                         .IsRequired();
 
                     b.Property<string>("Name")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(100);
 
                     b.Property<byte[]>("Recording")
                         .IsRequired();
@@ -78,7 +79,8 @@ namespace API.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ExerciseSession_ID");
+                    b.HasIndex("ExerciseSession_ID")
+                        .IsUnique();
 
                     b.ToTable("ExerciseResults");
                 });
@@ -128,15 +130,18 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Email")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(255);
 
                     b.Property<string>("FirstName")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(100);
 
                     b.Property<char>("Gender");
 
                     b.Property<string>("LastName")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(255);
 
                     b.Property<string>("Password")
                         .IsRequired();
@@ -210,8 +215,8 @@ namespace API.Migrations
             modelBuilder.Entity("API.Models.ExerciseResult", b =>
                 {
                     b.HasOne("API.Models.ExerciseSession", "ExerciseSession")
-                        .WithMany()
-                        .HasForeignKey("ExerciseSession_ID")
+                        .WithOne("ExerciseResult")
+                        .HasForeignKey("API.Models.ExerciseResult", "ExerciseSession_ID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

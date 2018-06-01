@@ -14,6 +14,7 @@ namespace API.Models
         public long ID { get; set; }
 
         [EmailAddress]
+        [MaxLength(255)]
         [Required]
         public string Email { get; set; }
 
@@ -22,9 +23,11 @@ namespace API.Models
         [Required]
         public string Password { get; set; }
 
+        [MaxLength(100)]
         [Required]
         public string FirstName { get; set; }
 
+        [MaxLength(255)]
         [Required]
         public string LastName { get; set; }
 

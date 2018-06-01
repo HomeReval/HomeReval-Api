@@ -219,42 +219,85 @@ namespace API
             {
                 // m625LrMSdPa9IZlnFAaR4O6X9gXQxC4PRlfuPnZRb9Kb4Ka2 = password
                 context.Add(new User {Email = "projecthomereval@gmail.com", Password = "m625LrMSdPa9IZlnFAaR4O6X9gXQxC4PRlfuPnZRb9Kb4Ka2", FirstName = "Admin", LastName = "Admin", Gender = 'm', UserGroup = context.UserGroups.Find(API.Models.Type.Administrator) });
-                context.Add(new User {Email = "fysio@hotmail.nl", Password = "m625LrMSdPa9IZlnFAaR4O6X9gXQxC4PRlfuPnZRb9Kb4Ka2", FirstName = "Admin", LastName = "Admin", Gender = 'm', UserGroup = context.UserGroups.Find(API.Models.Type.Manager) });
+                context.Add(new User {Email = "janvanwindmolen@fysio.nl", Password = "m625LrMSdPa9IZlnFAaR4O6X9gXQxC4PRlfuPnZRb9Kb4Ka2", FirstName = "Jan", LastName = "van Windmolen", Gender = 'm', UserGroup = context.UserGroups.Find(API.Models.Type.Manager) });
+                context.Add(new User { Email = "hermandetas@fysio.nl", Password = "m625LrMSdPa9IZlnFAaR4O6X9gXQxC4PRlfuPnZRb9Kb4Ka2", FirstName = "Herman", LastName = "de Tas", Gender = 'm', UserGroup = context.UserGroups.Find(API.Models.Type.Manager) });
                 context.Add(new User {Email = "nickwindt@hotmail.nl", Password = "m625LrMSdPa9IZlnFAaR4O6X9gXQxC4PRlfuPnZRb9Kb4Ka2", FirstName = "Nick", LastName = "Windt", Gender = 'm', UserGroup = context.UserGroups.Find(API.Models.Type.User) });
+                context.Add(new User { Email = "petertorenvalk@hotmail.nl", Password = "m625LrMSdPa9IZlnFAaR4O6X9gXQxC4PRlfuPnZRb9Kb4Ka2", FirstName = "Peter", LastName = "Torenvalk", Gender = 'm', UserGroup = context.UserGroups.Find(API.Models.Type.User) });
+                context.Add(new User { Email = "liesbakker@hotmail.nl", Password = "m625LrMSdPa9IZlnFAaR4O6X9gXQxC4PRlfuPnZRb9Kb4Ka2", FirstName = "Lies", LastName = "Bakker", Gender = 'f', UserGroup = context.UserGroups.Find(API.Models.Type.User) });
+                context.Add(new User { Email = "henkjansen@hotmail.nl", Password = "m625LrMSdPa9IZlnFAaR4O6X9gXQxC4PRlfuPnZRb9Kb4Ka2", FirstName = "Henk", LastName = "Jansen", Gender = 'm', UserGroup = context.UserGroups.Find(API.Models.Type.User) });
+                context.Add(new User { Email = "keesvanberenstein@hotmail.nl", Password = "m625LrMSdPa9IZlnFAaR4O6X9gXQxC4PRlfuPnZRb9Kb4Ka2", FirstName = "Kees", LastName = "van Berenstein", Gender = 'm', UserGroup = context.UserGroups.Find(API.Models.Type.User) });
                 context.SaveChanges();
             }
 
             if (!context.UserPhysios.Any())
             {
 
-                User user = context.Users.First(a => a.UserGroup.ID == Models.Type.User);
-                User fysio = context.Users.First(a => a.UserGroup.ID == Models.Type.Manager);
+                User user = context.Users.First(a => a.Email == "nickwindt@hotmail.nl");
+                User user2 = context.Users.First(a => a.Email == "petertorenvalk@hotmail.nl");
+                User user3 = context.Users.First(a => a.Email == "liesbakker@hotmail.nl");
+                User user4 = context.Users.First(a => a.Email == "henkjansen@hotmail.nl");
+
+                User user5 = context.Users.First(a => a.Email == "keesvanberenstein@hotmail.nl");
+                
+
+
+                User fysio = context.Users.First(a => a.Email == "janvanwindmolen@fysio.nl");
+                User fysio2 = context.Users.First(a => a.Email == "hermandetas@fysio.nl" );
 
                 context.Add(new UserPhysio { User = user, Physio = fysio });
+                context.Add(new UserPhysio { User = user2, Physio = fysio });
+                context.Add(new UserPhysio { User = user3, Physio = fysio });
+                context.Add(new UserPhysio { User = user4, Physio = fysio });
+
+                context.Add(new UserPhysio { User = user5, Physio = fysio2 });
+
                 context.SaveChanges();
             }
 
             if (!context.Exercises.Any())
             {
-                context.Add(new Exercise { Name = "Zit & Sta", Description = "Ga zitten en sta dan voor 20s", Recording = new byte[8] });
-                context.Add(new Exercise { Name = "Slaap & Sta", Description = "Ga slapen en sta dan voor 20s", Recording = new byte[8] });
-                context.Add(new Exercise { Name = "Ren & Vecht", Description = "Ga rennen en vecht dan voor 20s", Recording = new byte[8] });
+                context.Add(new Exercise { Name = "Nek beweging", Description = "Beweeg uw nek van links naar rechts", Recording = new byte[8] });
+                context.Add(new Exercise { Name = "Arm spanning", Description = "Strek uw arm vooruit, span de spieren samen en beweeg de arm 90 graden naarboven", Recording = new byte[8] });
+                context.Add(new Exercise { Name = "Been strekking", Description = "Ga staan en strek uw been vooruit", Recording = new byte[8] });
                 context.SaveChanges();
             }
 
             if (!context.UserExercises.Any())
             {
 
-                User user = context.Users.First(a => a.UserGroup.ID == Models.Type.User);
-                Exercise exercise = context.Exercises.First(a => a.ID == 1);
+                User user = context.Users.First(a => a.Email == "nickwindt@hotmail.nl");
+                User user2 = context.Users.First(a => a.Email == "petertorenvalk@hotmail.nl");
+                User user3 = context.Users.First(a => a.Email == "liesbakker@hotmail.nl");
+                User user4 = context.Users.First(a => a.Email == "henkjansen@hotmail.nl");
+
+                User user5 = context.Users.First(a => a.Email == "keesvanberenstein@hotmail.nl");
+
+                Exercise exercise = context.Exercises.First(a => a.Name == "Nek beweging");
+                Exercise exercise2 = context.Exercises.First(a => a.Name == "Arm spanning");
+                Exercise exercise3 = context.Exercises.First(a => a.Name == "Been strekking");
                 context.Add(new UserExercise { User = user, Exercise = exercise });
+                context.Add(new UserExercise { User = user, Exercise = exercise2 });
+                context.Add(new UserExercise { User = user, Exercise = exercise3 });
+
+                context.Add(new UserExercise { User = user2, Exercise = exercise });
+                context.Add(new UserExercise { User = user2, Exercise = exercise3 });
+
+                context.Add(new UserExercise { User = user3, Exercise = exercise });
+                context.Add(new UserExercise { User = user3, Exercise = exercise2 });
+
+                context.Add(new UserExercise { User = user4, Exercise = exercise });
+                context.Add(new UserExercise { User = user4, Exercise = exercise2 });
+
+                context.Add(new UserExercise { User = user5, Exercise = exercise2 });
+                context.Add(new UserExercise { User = user5, Exercise = exercise3 });
+
                 context.SaveChanges();
             }
 
             if (!context.ExercisePlannings.Any())
             {
                 UserExercise userExercise = context.UserExercises.First();
-                context.Add(new ExercisePlanning { StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(5), Description = "Mevrouw bakkertjes, houd rekening met het feit dat u deze oefening GOED moet doen!", Amount = 100, UserExercise = userExercise});
+                context.Add(new ExercisePlanning { StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(5), Description = "Meneer Windt, houd rekening met het feit dat u deze oefening goed op de feedback van het systeem let!", Amount = 100, UserExercise = userExercise});
                 context.SaveChanges();
             }
             
