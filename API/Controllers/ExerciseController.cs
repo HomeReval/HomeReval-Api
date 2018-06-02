@@ -47,8 +47,8 @@ namespace API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user_ID = _jwtHandler.GetUserID(_httpContextAccessor.HttpContext);
-            _roleService.IsUserManager(user_ID);
+            //var user_ID = _jwtHandler.GetUserID(_httpContextAccessor.HttpContext);
+            //_roleService.IsUserManager(user_ID);
 
             byte[] Recording = _exerciseService.Compress(clientExercise.Recording);
             _exerciseService.Add(new Exercise { Name = clientExercise.Name, Description = clientExercise.Description, Recording = Recording });
