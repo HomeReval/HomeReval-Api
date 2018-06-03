@@ -74,6 +74,8 @@ namespace API.Services
                 dbContext.Exercises.Add(exercise);
                 dbContext.SaveChanges();
 
+                exercise.Recording = null;
+
                 return exercise;
             }
         }
