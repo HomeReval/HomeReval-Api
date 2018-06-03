@@ -32,10 +32,18 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetById()
+        public IActionResult GetByUserID()
         {
             var user_ID = _jwtHandler.GetUserID(_httpContextAccessor.HttpContext);
             return Ok(_exerciseService.GetByUserID(user_ID));
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetByID(long id)
+        {
+            var user_ID = _jwtHandler.GetUserID(_httpContextAccessor.HttpContext);
+            return Ok(_exerciseService.GetByIDAndUserID(id, user_ID));
+
         }
 
         [HttpPost]
@@ -51,8 +59,8 @@ namespace API.Controllers
             //_roleService.IsUserManager(user_ID);
 
             byte[] Recording = _exerciseService.Compress(clientExercise.Recording);
-            _exerciseService.Add(new Exercise { Name = clientExercise.Name, Description = clientExercise.Description, Recording = Recording });
-            return NoContent();
+            var exercise = _exerciseService.AddWithReturn(new Exercise { Name = clientExercise.Name, Description = clientExercise.Description, Recording = Recording });
+            return Ok(exercise);
         }
     }
 }
