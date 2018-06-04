@@ -10,7 +10,6 @@ namespace API.Services
     {
 
         UserExercise Get(long user_ID, long exercise_ID);
-        void Add(long user_ID, long exercise_ID);
 
     }
 }

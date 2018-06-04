@@ -20,9 +20,6 @@ namespace API.Services
             throw new System.NotImplementedException();
         }
 
-        public void Add(long user_ID, long exercise_ID)
-            => AddUserExercise(user_ID, exercise_ID);
-
         public void Delete(object o)
         {
             throw new System.NotImplementedException();
@@ -58,23 +55,6 @@ namespace API.Services
 
             }
 
-        }
-
-        private void AddUserExercise(long user_ID, long exercise_ID)
-        {
-            using (var scope = _scopeFactory.CreateScope())
-            {
-                var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
-
-                UserExercise userExercise = new UserExercise
-                {
-                    Exercise_ID = exercise_ID,
-                    User_ID = user_ID
-                };
-
-                dbContext.UserExercises.Add(userExercise);
-                dbContext.SaveChanges();
-            }
         }
 
     }
