@@ -40,12 +40,24 @@ namespace API
         {
             var host = WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseUrls(urls: "http://0.0.0.0:5000")
                 .Build();
 
             using (var scope = host.Services.CreateScope())
             {
-                var db = scope.ServiceProvider.GetService<Context>();
-                db.Database.Migrate();
+                var services = scope.ServiceProvider;
+                var context = scope.ServiceProvider.GetService<Context>();
+
+                try
+                {
+                    context.Database.Migrate();
+                    SeedData.Initialize(context);
+                } catch (Exception e)
+                {
+                    // something
+                }
+                
+
             }
 
             return host;

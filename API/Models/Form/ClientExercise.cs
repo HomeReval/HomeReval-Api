@@ -4,26 +4,19 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace API.Models
+namespace API.Models.Form
 {
-
-    public class UserGroup
+    public class ClientExercise
     {
 
-        public Type ID { get; set; }
+        public long ID { get; set; }
 
         [Required]
-        public string Type { get; set; }
-
+        public string Name { get; set; }
         [Required]
         public string Description { get; set; }
+        [Required]
+        public string Recording { get; set; }
 
-    }
-
-    public enum Type : int
-    {
-        User = 2,
-        Manager = 1,
-        Administrator = 0
     }
 }

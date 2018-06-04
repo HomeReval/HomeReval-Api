@@ -3,8 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Models;
+using API.Models.Form;
+using API.Models.Tokens;
+using API.Services;
 using API.Services.Security;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.HttpSys;
 using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,93 +20,69 @@ using Microsoft.EntityFrameworkCore;
 namespace API.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UserController : ControllerBase
     {
-        private readonly Context _context;
-        private readonly IEncryptionManager _encryptionManager;
 
-        public UserController(Context context, IEncryptionManager encryptionManager)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IUserService _userService;
+        private readonly IJwtHandler _jwtHandler;
+
+        public UserController(IHttpContextAccessor httpContextAccessor, IUserService userService, IJwtHandler jwtHandler)
         {
-            _context = context;
-            _encryptionManager = encryptionManager;
-
-            if (_context.Users.Count() == 0)
-            {
-                _context.Add(new User { Email = "projecthomereval@gmail.com", Password = "default", FirstName = "Admin", LastName = "Admin", Gender = 'm', UserGroup = _context.UserGroups.Find(API.Models.Type.Administrator) });
-                _context.SaveChanges();
-            }
+            _httpContextAccessor = httpContextAccessor;
+            _userService = userService;
+            _jwtHandler = jwtHandler;
         }
 
+        // Returns current user
         [HttpGet]
-        public List<User> GetAll()
+        public IActionResult Get()
         {
-            return _context.Users
-                //.Include(p => p.UserGroup)
-                .ToList();
+            var user_ID = _jwtHandler.GetUserID(_httpContextAccessor.HttpContext);
+            return Ok(_userService.Get(user_ID));
         }
 
-        [HttpGet("{id}", Name = "GetUser")]
-        public IActionResult GetById(long id)
+        // Login with email & password, returns access, refresh and access expiration details
+        [HttpPost("login")]
+        [AllowAnonymous]
+        public IActionResult SignIn([FromBody] SignIn request)
         {
-            var user = _context.Users.Find(id);
-            _context.Entry(user).Reference(p => p.UserGroup).Load();
-            if (user == null)
-            {
-                return NotFound();
+            if (ModelState.IsValid){
+                return Ok(_userService.SignIn(request.Username, request.Password));
             }
-            return Ok(user);
+            return BadRequest(ModelState);              
         }
 
-        [HttpPost]
-        public IActionResult Create([FromBody] User user)
+        // Create a new account
+        [HttpPost("create")]
+        [AllowAnonymous]
+        public IActionResult SignUp([FromBody] SignUp signUp)
         {
-            if (user == null)
+
+            if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
-            user.Password = _encryptionManager.Encrypt(user.Password);
-
-            _context.Users.Add(user);
-            _context.SaveChanges();
-
-            return CreatedAtRoute("GetUser", new { id = user.ID }, user);
-        }
-
-        [HttpPut("{id}")]
-        public IActionResult Update(long id, [FromBody] User user)
-        {
-            if (user == null || user.ID != id)
+            User user = new User
             {
-                return BadRequest();
-            }
+                Email = signUp.Email,
+                Password = signUp.Password,
+                FirstName = signUp.FirstName,
+                LastName = signUp.LastName,
+                Gender = signUp.Gender              
+            };
 
-            var todo = _context.Users.Find(id);
-            if (todo == null)
-            {
-                return NotFound();
-            }
-
-            todo.FirstName = user.FirstName;
-
-            _context.Users.Update(todo);
-            _context.SaveChanges();
+            _userService.SignUp(user);
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(long id)
-        {
-            var user = _context.Users.Find(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            _context.Users.Remove(user);
-            _context.SaveChanges();
-            return NoContent();
-        }
+        // Return a new access token with the supplied Refresh Token
+        [HttpPost("token/refresh")]
+        [AllowAnonymous]
+        public IActionResult RefreshAccessToken([FromBody] RefreshToken refreshToken)
+            => Ok(_userService.RefreshAccessToken(refreshToken.Token));
 
     }
 }

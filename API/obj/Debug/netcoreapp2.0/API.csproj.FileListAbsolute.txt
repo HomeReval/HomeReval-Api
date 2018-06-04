@@ -14,7 +14,6 @@ F:\School\HomeReval\HomeReval-Api\API\bin\Debug\netcoreapp2.0\API.runtimeconfig.
 F:\School\HomeReval\HomeReval-Api\API\bin\Debug\netcoreapp2.0\API.runtimeconfig.dev.json
 F:\School\HomeReval\HomeReval-Api\API\bin\Debug\netcoreapp2.0\API.dll
 F:\School\HomeReval\HomeReval-Api\API\bin\Debug\netcoreapp2.0\API.pdb
-F:\School\HomeReval\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.csprojResolveAssemblyReference.cache
 F:\School\HomeReval\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.csproj.CoreCompileInputs.cache
 F:\School\HomeReval\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.AssemblyInfoInputs.cache
 F:\School\HomeReval\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.AssemblyInfo.cs
@@ -25,9 +24,24 @@ D:\School\HomeReval\HomeReval-Api\API\bin\Debug\netcoreapp2.0\API.runtimeconfig.
 D:\School\HomeReval\HomeReval-Api\API\bin\Debug\netcoreapp2.0\API.runtimeconfig.dev.json
 D:\School\HomeReval\HomeReval-Api\API\bin\Debug\netcoreapp2.0\API.dll
 D:\School\HomeReval\HomeReval-Api\API\bin\Debug\netcoreapp2.0\API.pdb
-D:\School\HomeReval\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.csprojResolveAssemblyReference.cache
 D:\School\HomeReval\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.csproj.CoreCompileInputs.cache
 D:\School\HomeReval\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.AssemblyInfoInputs.cache
 D:\School\HomeReval\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.AssemblyInfo.cs
 D:\School\HomeReval\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.dll
 D:\School\HomeReval\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.pdb
+<<<<<<< HEAD
+=======
+C:\Users\Chung\Documents\GitHub\HomeReval-Api\API\bin\Debug\netcoreapp2.0\API.deps.json
+C:\Users\Chung\Documents\GitHub\HomeReval-Api\API\bin\Debug\netcoreapp2.0\API.runtimeconfig.json
+C:\Users\Chung\Documents\GitHub\HomeReval-Api\API\bin\Debug\netcoreapp2.0\API.runtimeconfig.dev.json
+C:\Users\Chung\Documents\GitHub\HomeReval-Api\API\bin\Debug\netcoreapp2.0\API.dll
+C:\Users\Chung\Documents\GitHub\HomeReval-Api\API\bin\Debug\netcoreapp2.0\API.pdb
+C:\Users\Chung\Documents\GitHub\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.csprojResolveAssemblyReference.cache
+C:\Users\Chung\Documents\GitHub\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.csproj.CoreCompileInputs.cache
+C:\Users\Chung\Documents\GitHub\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.AssemblyInfoInputs.cache
+C:\Users\Chung\Documents\GitHub\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.AssemblyInfo.cs
+C:\Users\Chung\Documents\GitHub\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.dll
+C:\Users\Chung\Documents\GitHub\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.pdb
+D:\School\HomeReval\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.csprojAssemblyReference.cache
+F:\School\HomeReval\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.csprojAssemblyReference.cache
+>>>>>>> planning++

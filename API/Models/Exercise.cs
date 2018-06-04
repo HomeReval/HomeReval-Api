@@ -13,15 +13,19 @@ namespace API.Models
         public long ID { get; set; }
 
         [Required]
+<<<<<<< HEAD
         public DateTime Startdate { get; set; }
         [Required]
         private DateTime Enddate { get; set; }
 
         [Required]
+=======
+        [MaxLength(100)]
+>>>>>>> planning++
         public string Name { get; set; }
 
-        public string Description { get; set; }
         [Required]
+<<<<<<< HEAD
         public int Amount { get; set; }
 
         [Required]
@@ -35,6 +39,13 @@ namespace API.Models
 
         [ForeignKey("ExerciseRecording_ID")]
         public ExerciseRecording ExerciseRecording { get; set; }
+=======
+        public string Description { get; set; }
+        
+        // Recording must be a file / blob
+        [Required]
+        public byte[] Recording { get; set; }
+>>>>>>> planning++
 
     }
 }

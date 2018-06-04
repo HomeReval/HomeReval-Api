@@ -7,20 +7,20 @@ using System.Threading.Tasks;
 
 namespace API.Models
 {
-    public class UserPhysio
+    public class UserExercise
     {
+
+        public long ID { get; set; }
 
         public long User_ID { get; set; }
 
-        public long Physio_ID { get; set; }
+        public long Exercise_ID { get; set; }
 
         [ForeignKey("User_ID")]
-        [Required]
         public User User { get; set; }
 
-        [ForeignKey("Physio_ID")]
-        [Required]
-        public User Physio { get; set; }
+        [ForeignKey("Exercise_ID")]
+        public Exercise Exercise { get; set; }
 
     }
 }

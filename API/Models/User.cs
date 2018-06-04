@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,15 +14,20 @@ namespace API.Models
         public long ID { get; set; }
 
         [EmailAddress]
+        [MaxLength(255)]
         [Required]
         public string Email { get; set; }
 
+        // Because of security reasons, the password is never returned in the Controller
+        [JsonIgnore]
         [Required]
         public string Password { get; set; }
 
+        [MaxLength(100)]
         [Required]
         public string FirstName { get; set; }
 
+        [MaxLength(255)]
         [Required]
         public string LastName { get; set; }
 
