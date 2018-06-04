@@ -9,5 +9,6 @@ namespace API.Services
     {
 
         object GetByWeek(long ID, int weeknumber);
+        object GetByID(long user_ID, long exercisePlanning_ID);
     }
 }

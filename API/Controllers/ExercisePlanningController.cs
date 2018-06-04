@@ -31,6 +31,15 @@ namespace API.Controllers
             _jwtHandler = jwtHandler;
         }
 
+
+        // Return all exerciseplannings of supplied weeknumber for token based User
+        [HttpGet("{id}")]
+        public IActionResult GetByID(long id)
+        {
+            var user_ID = _jwtHandler.GetUserID(_httpContextAccessor.HttpContext);
+            return Ok(_exercisePlanningService.GetByID(user_ID, id));
+        }
+
         // Return all exerciseplannings of this week for token based User
         [HttpGet("week")]
         public IActionResult GetByThisWeek()

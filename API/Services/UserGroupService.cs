@@ -8,9 +8,8 @@ namespace API.Services
     {
 
         private readonly IUserService _userService;
-        private readonly IJwtHandler _jwtHandler;
 
-        public UserGroupService(IUserService userService, IJwtHandler jwtHandler)
+        public UserGroupService(IUserService userService)
         {
             _userService = userService;
         }

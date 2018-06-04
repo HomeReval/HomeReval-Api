@@ -31,6 +31,9 @@ namespace API.Services
             throw new System.NotImplementedException();
         }
 
+        public object GetByID(long user_ID, long exercisePlanning_ID)
+            => GetExercisePlanningsByIdWithResult(user_ID, exercisePlanning_ID);
+
         public void Update(object o)
         {
             throw new System.NotImplementedException();
@@ -38,6 +41,37 @@ namespace API.Services
 
         public object GetByWeek(long id, int weeknumber)
              => GetExercisesByWeek(id, weeknumber);
+
+        private List<dynamic> GetExercisePlanningsByIdWithResult(long user_ID, long exercisePlanning_ID)
+        {
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
+                var exercisePlannings = dbContext.ExercisePlannings
+                    .Where(e => ( e.ID == exercisePlanning_ID && e.UserExercise.User_ID == user_ID  ))
+                    .Select(e => new
+                    {
+                        e.ID,
+                        ExerciseSessions = e.ExerciseSessions.Select(es => new
+                        {
+                            es.ID,
+                            ExerciseResult = (es.ExerciseResult == null ? null : new
+                            {
+                                es.ExerciseResult.ID,
+                                Recording = Helper.Compress(es.ExerciseResult.Result)
+                            }
+                            )
+                        })
+                        .ToList<dynamic>()
+                    }).ToList<dynamic>();
+
+                if (!exercisePlannings.Any())
+                {
+                    throw new Exception("No exercises plannings were found for user: " + user_ID + ", with planning ID: " + exercisePlanning_ID);
+                }
+                return exercisePlannings;
+            }
+        }
 
         private List<dynamic> GetExercisesByWeek(long id, int weeknumber)
         {

@@ -39,6 +39,16 @@ namespace API.Services
             return dates;
         }
 
+        public static byte[] Compress(string recording)
+        {
+            return Convert.FromBase64String(recording);
+        }
+
+        public static string Compress(byte[] recording)
+        {
+            return Convert.ToBase64String(recording);
+        }
+
 
     }
 }

@@ -58,7 +58,7 @@ namespace API.Controllers
             //var user_ID = _jwtHandler.GetUserID(_httpContextAccessor.HttpContext);
             //_roleService.IsUserManager(user_ID);
 
-            byte[] Recording = _exerciseService.Compress(clientExercise.Recording);
+            byte[] Recording = Helper.Compress(clientExercise.Recording);
             var exercise = _exerciseService.AddWithReturn(new Exercise { Name = clientExercise.Name, Description = clientExercise.Description, Recording = Recording });
             return Ok(exercise);
         }

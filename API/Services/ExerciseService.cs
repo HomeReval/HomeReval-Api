@@ -56,16 +56,6 @@ namespace API.Services
             throw new NotImplementedException();
         }
 
-        public byte[] Compress (string recording)
-        {
-            return Convert.FromBase64String(recording);
-        }
-
-        public string Compress(byte[] recording)
-        {
-            return Convert.ToBase64String(recording);
-        }
-
         private object AddExercise(Exercise exercise)
         {
             using (var scope = _scopeFactory.CreateScope())
@@ -92,7 +82,7 @@ namespace API.Services
                                  {
                                      ID = e.ID,
                                      Name = e.Name,
-                                     Recording = Compress(e.Recording),
+                                     Recording = Helper.Compress(e.Recording),
                                      Description = e.Description
                                  }).ToList();
                 if (!exercises.Any())
