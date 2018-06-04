@@ -13373,27 +13373,44 @@
   },
   "packageFolders": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "C:\\Users\\nickw\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\dotnet\\sdk\\NuGetFallbackFolder": {}
 =======
     "C:\\Users\\Gebruiker\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
 >>>>>>> c4733fbe99bd98d0c39243fe6ac526c094dff38f
+=======
+    "C:\\Users\\nickw\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\dotnet\\sdk\\NuGetFallbackFolder": {}
+>>>>>>> 214764f7575e4d1de98eecdc39556a893d779a97
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "F:\\School\\HomeReval\\HomeReval-Api\\API\\API.csproj",
       "projectName": "API",
       "projectPath": "F:\\School\\HomeReval\\HomeReval-Api\\API\\API.csproj",
       "packagesPath": "C:\\Users\\Gebruiker\\.nuget\\packages\\",
       "outputPath": "F:\\School\\HomeReval\\HomeReval-Api\\API\\obj\\",
+=======
+      "projectUniqueName": "D:\\School\\HomeReval\\HomeReval-Api\\API\\API.csproj",
+      "projectName": "API",
+      "projectPath": "D:\\School\\HomeReval\\HomeReval-Api\\API\\API.csproj",
+      "packagesPath": "C:\\Users\\nickw\\.nuget\\packages\\",
+      "outputPath": "D:\\School\\HomeReval\\HomeReval-Api\\API\\obj\\",
+>>>>>>> 214764f7575e4d1de98eecdc39556a893d779a97
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
+<<<<<<< HEAD
         "C:\\Users\\Gebruiker\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+        "C:\\Users\\nickw\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> 214764f7575e4d1de98eecdc39556a893d779a97
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -13442,5 +13459,13 @@
         "warn": true
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file D:\\School\\HomeReval\\HomeReval-Api\\API\\obj\\API.csproj.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }
