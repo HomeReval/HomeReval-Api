@@ -34,6 +34,9 @@ namespace API.Services
         public object GetByID(long user_ID, long exercisePlanning_ID)
             => GetExercisePlanningsByIdWithResult(user_ID, exercisePlanning_ID);
 
+        public object GetRemainingSessionsByDate(long user_ID, DateTime date)
+            => GetExercisePlanningsWithRemainingSessionsByDate(user_ID, date);
+
         public void Update(object o)
         {
             throw new System.NotImplementedException();
@@ -41,6 +44,52 @@ namespace API.Services
 
         public object GetByWeek(long id, int weeknumber)
              => GetExercisesByWeek(id, weeknumber);
+
+
+        private List<dynamic> GetExercisePlanningsWithRemainingSessionsByDate(long user_ID, DateTime date)
+        {
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
+                var exercisePlannings = dbContext.ExercisePlannings
+                    .Where(e => (e.UserExercise.User_ID == user_ID))
+                    .Select(e => new
+                    {
+                        e.ID,
+                        e.StartDate,
+                        e.EndDate,
+                        e.Description,
+                        e.Amount,
+                        Exercise = new
+                        {
+                            e.UserExercise.Exercise.ID,
+                            e.UserExercise.Exercise.Name,
+                            e.UserExercise.Exercise.Description
+                        },
+                        ExerciseSessions = e.ExerciseSessions.Select(es => new
+                        {
+                            es.ID,
+                            es.Date,
+                            es.IsComplete,
+                            ExerciseResult = (es.ExerciseResult == null ? null : new
+                            {
+                                es.ExerciseResult.ID,
+                                es.ExerciseResult.Duration,
+                                es.ExerciseResult.Score
+                            }
+                            )
+                        }).Where(session => (session.Date.Date == date.Date && session.IsComplete == false))
+                        .ToList<dynamic>()
+                    }).Where(ee => ee.ExerciseSessions.Any() == true)
+                    .ToList<dynamic>();
+
+                if (!exercisePlannings.Any())
+                {
+                    throw new Exception("No exercises sessions were found for user: " + user_ID + ", in on : " + date.Date);
+                }
+                return exercisePlannings;
+            }
+        }
 
         private List<dynamic> GetExercisePlanningsByIdWithResult(long user_ID, long exercisePlanning_ID)
         {
@@ -108,31 +157,6 @@ namespace API.Services
                         })
                         .ToList<dynamic>()
                     }).ToList<dynamic>();
-
-                //var exercisePlannings = (from ue in dbContext.UserExercises
-                //                 join e in dbContext.Exercises on ue.Exercise_ID equals e.ID
-                //                 join ep in dbContext.ExercisePlannings on ue.ID equals ep.UserExercise_ID
-                //                 join es in dbContext.ExerciseSessions on ep.ID equals es.ExercisePlanning_ID
-                //                 join er in dbContext.ExerciseResults on es.ID equals er.ExerciseSession_ID
-                //                 where ue.User_ID == id //&& weekNum == (ep.Date.DayOfYear / 7)
-                //                 select new
-                //                 {
-                //                     ep.ID,
-                //                     ep.StartDate,
-                //                     ep.EndDate,
-                //                     ep.Description,
-                //                     ep.Amount,
-                //                     ExerciseSessions = ep.ExerciseSessions.Select(qes => new
-                //                     {
-                //                         qes.ID,
-                //                         qes.Date,
-                //                         qes.IsComplete,
-                //                         ExerciseResult = new
-                //                         {
-                //                             es.ExerciseResult.ID
-                //                         }
-                //                     })
-                //                 }).ToList<dynamic>();
 
                 if (!exercisePlannings.Any())
                 {

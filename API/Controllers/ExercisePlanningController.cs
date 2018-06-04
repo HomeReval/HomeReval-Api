@@ -40,6 +40,13 @@ namespace API.Controllers
             return Ok(_exercisePlanningService.GetByID(user_ID, id));
         }
 
+        [HttpGet("date/{date}")]
+        public IActionResult GetByDate(DateTime date)
+        {
+            var user_ID = _jwtHandler.GetUserID(_httpContextAccessor.HttpContext);
+            return Ok(_exercisePlanningService.GetRemainingSessionsByDate(user_ID, date));
+        }
+
         // Return all exerciseplannings of this week for token based User
         [HttpGet("week")]
         public IActionResult GetByThisWeek()
