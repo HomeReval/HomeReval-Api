@@ -76,7 +76,7 @@ namespace API.Controllers
 
             var user_ID = _jwtHandler.GetUserID(_httpContextAccessor.HttpContext);
             //_roleService.IsUserManager(user_ID);
-            _userPhysioService.IsMemberOfPhysio(user_ID, exercisePlanning.UserExercise.User_ID);
+            //_userPhysioService.IsMemberOfPhysio(user_ID, exercisePlanning.UserExercise.User_ID);
 
             var userExercise = _userExerciseService.Get(exercisePlanning.UserExercise.User_ID, exercisePlanning.UserExercise.Exercise_ID);
             exercisePlanning.UserExercise = userExercise;
