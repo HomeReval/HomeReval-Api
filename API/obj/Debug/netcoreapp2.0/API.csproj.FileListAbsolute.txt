@@ -9,3 +9,14 @@ D:\School\HomeReval\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.AssemblyInfoIn
 D:\School\HomeReval\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.AssemblyInfo.cs
 D:\School\HomeReval\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.dll
 D:\School\HomeReval\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.pdb
+C:\Users\Stefan\Documents\School\ProjectB\HomeReval-Api\API\bin\Debug\netcoreapp2.0\API.deps.json
+C:\Users\Stefan\Documents\School\ProjectB\HomeReval-Api\API\bin\Debug\netcoreapp2.0\API.runtimeconfig.json
+C:\Users\Stefan\Documents\School\ProjectB\HomeReval-Api\API\bin\Debug\netcoreapp2.0\API.runtimeconfig.dev.json
+C:\Users\Stefan\Documents\School\ProjectB\HomeReval-Api\API\bin\Debug\netcoreapp2.0\API.dll
+C:\Users\Stefan\Documents\School\ProjectB\HomeReval-Api\API\bin\Debug\netcoreapp2.0\API.pdb
+C:\Users\Stefan\Documents\School\ProjectB\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.csprojAssemblyReference.cache
+C:\Users\Stefan\Documents\School\ProjectB\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.csproj.CoreCompileInputs.cache
+C:\Users\Stefan\Documents\School\ProjectB\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.AssemblyInfoInputs.cache
+C:\Users\Stefan\Documents\School\ProjectB\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.AssemblyInfo.cs
+C:\Users\Stefan\Documents\School\ProjectB\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.dll
+C:\Users\Stefan\Documents\School\ProjectB\HomeReval-Api\API\obj\Debug\netcoreapp2.0\API.pdb
