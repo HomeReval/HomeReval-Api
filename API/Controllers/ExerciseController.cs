@@ -20,13 +20,15 @@ namespace API.Controllers
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IExerciseService _exerciseService;
+        private readonly IUserExerciseService _userExerciseService;
         private readonly IUserGroupService _roleService;
         private readonly IJwtHandler _jwtHandler;
 
-        public ExerciseController(IHttpContextAccessor httpContextAccessor, IExerciseService exerciseService, IUserGroupService roleService, IJwtHandler jwtHandler)
+        public ExerciseController(IHttpContextAccessor httpContextAccessor, IExerciseService exerciseService, IUserExerciseService userExerciseService, IUserGroupService roleService, IJwtHandler jwtHandler)
         {
             _httpContextAccessor = httpContextAccessor;
             _exerciseService = exerciseService;
+            _userExerciseService = userExerciseService;
             _roleService = roleService;
             _jwtHandler = jwtHandler;
         }
@@ -55,11 +57,14 @@ namespace API.Controllers
                 return BadRequest(ModelState);
             }
 
-            //var user_ID = _jwtHandler.GetUserID(_httpContextAccessor.HttpContext);
+            var user_ID = _jwtHandler.GetUserID(_httpContextAccessor.HttpContext);
             //_roleService.IsUserManager(user_ID);
 
             byte[] Recording = Helper.Compress(clientExercise.Recording);
-            var exercise = _exerciseService.AddWithReturn(new Exercise { Name = clientExercise.Name, Description = clientExercise.Description, Recording = Recording });
+            Exercise exercise = (Exercise) _exerciseService.AddWithReturn(new Exercise { Name = clientExercise.Name, Description = clientExercise.Description, Recording = Recording });
+            _userExerciseService.Add(user_ID, exercise.ID);
+
+
             return Ok(exercise);
         }
     }

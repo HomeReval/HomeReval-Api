@@ -20,6 +20,9 @@ namespace API.Services
             throw new System.NotImplementedException();
         }
 
+        public void Add(long user_ID, long exercise_ID)
+            => AddUserExercise(user_ID, exercise_ID);
+
         public void Delete(object o)
         {
             throw new System.NotImplementedException();
@@ -55,6 +58,31 @@ namespace API.Services
 
             }
 
+        }
+
+        private void AddUserExercise(long user_ID, long exercise_ID)
+        {
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
+                var userExercise = new UserExercise
+                {
+                    User_ID = user_ID,
+                    Exercise_ID = exercise_ID
+                };
+
+                try
+                {
+                    dbContext.UserExercises.Add(userExercise);
+                    dbContext.SaveChanges();
+                } catch
+                {
+                    throw new Exception("Couldn't add UserExercise with User ID: " + user_ID + " with Exercise ID: " + exercise_ID);
+                }
+
+                
+
+            }
         }
 
     }
