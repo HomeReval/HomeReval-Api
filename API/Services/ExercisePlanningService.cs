@@ -128,7 +128,8 @@ namespace API.Services
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
                 var exercisePlannings = dbContext.ExercisePlannings
-                    .Where(e => (Helper.GetIso8601WeekOfYear(e.StartDate) == weeknumber || Helper.GetIso8601WeekOfYear(e.EndDate) == weeknumber) && e.UserExercise.User_ID == id)
+                    //.Where(e => (Helper.GetIso8601WeekOfYear(e.StartDate) == weeknumber || Helper.GetIso8601WeekOfYear(e.EndDate) == weeknumber) && e.UserExercise.User_ID == id) Old method
+                    .Where(e => (Helper.AreDatesInWeekNumber(e.StartDate, e.EndDate, weeknumber) == true ) && e.UserExercise.User_ID == id)
                     .Select(e => new
                     {
                         e.ID,

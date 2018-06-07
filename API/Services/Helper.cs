@@ -39,6 +39,20 @@ namespace API.Services
             return dates;
         }
 
+        public static bool AreDatesInWeekNumber(DateTime startDate, DateTime endDate, int weeknumber)
+        {
+            var dates = GetDateTimes(startDate, endDate);
+            foreach (DateTime date in dates)
+            {
+                var week = GetIso8601WeekOfYear(date);
+                if (week == weeknumber)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public static byte[] Compress(string recording)
         {
             return Convert.FromBase64String(recording);
