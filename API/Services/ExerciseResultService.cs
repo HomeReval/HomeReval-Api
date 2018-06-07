@@ -49,6 +49,7 @@ namespace API.Services
                     .Where(e => e.ExercisePlanning_ID == exercisePlanning_ID && e.Date.Date == today.Date && e.ExercisePlanning.UserExercise.User_ID == user_ID).First();
 
                 exerciseSession.IsComplete = true;
+                exerciseSession.Date = DateTime.Now;
                 dbContext.Update(exerciseSession);
 
                 exerciseResult.ExerciseSession = exerciseSession;
